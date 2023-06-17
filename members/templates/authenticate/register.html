@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container-md p-0 my-md-5">
+
+        <div class="login-form col-lg-8 col-md-10 col-sm-12 m-auto text-center rounded-4 py-5">
+            <h1 class="fw-bold my-4">Log in to iBuyShop</h1>
+
+            <form class="col-6 m-auto fw-bold" action="" method="POST">
+                {% csrf_token %}
+
+                <div class="my-4 text-start">
+                    <label for="exampleInputEmail1" class="form-label mb-1">Email</label>
+                    <input type="text" class="form-control fw-bold" id="exampleInputEmail1"
+                           name="username"
+                           placeholder="Email address">
+                </div>
+                <div class="my-4 text-start">
+                    <label for="exampleInputPassword1" class="form-label mb-1">Password</label>
+                    <input type="password" class="form-control fw-bold" id="exampleInputPassword1"
+                           name="password"
+                           placeholder="Password">
+                </div>
+                <div class="my-4 form-check text-start">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                    <label class="form-check-label" for="exampleCheck1">Remember me</label>
+                </div>
+                <div class="my-4">
+                    <button type="submit" id="login-form" class=" w-100 btn text-dark fw-bold rounded-pill py-2">Log
+                        in
+                    </button>
+                </div>
+            </form>
+
+
+            <p>Don't have an account? <a href="{% url 'password_reset' %}" class="text-decoration-none text-orange">Sign
+                up now</a></p>
+        </div>
+    </div>
+
+{% endblock %}

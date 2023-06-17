@@ -2,6 +2,7 @@
 body {
     background: #28292c;
     font-family: 'Inter', sans-serif;
+    color: #eeeeee;
 }
 
 :root {
@@ -9,18 +10,53 @@ body {
     --clr-image-bg: #1F2125;
     --clr-desc-bg: #131415;
 
+    --background: #0E0C13
+
 }
 
-.nav-link > button{
-    background: #0E0C13;
+.nav-link > button {
+    background: var(--background);
     font-weight: bold;
 }
 
-.nav-link[data-active="active"] > button{
+.nav-link[data-active="active"] > button {
     border-color: var(--clr-primary) !important;
 }
 
-#login, #logout{
+#login, #logout, #login-form {
     background: var(--clr-primary);
-    ;
+}
+
+.login-form {
+    background: var(--background);
+}
+
+.text-orange {
+    color: var(--clr-primary);
+}
+
+.form-control {
+    background: rgba(211, 211, 211, 0.1);
+    color: #eee;
+}
+
+.form-control::placeholder {
+    color: rgba(238, 238, 238, 0.5);
+}
+
+.form-control:focus {
+    background: rgba(211, 211, 211, 0.1);
+    color: #eee;
+    border-color: var(--clr-primary);
+    box-shadow: 0 0 0 0.25rem rgba(252, 123, 47, 0.25);
+}
+
+.form-check-input:checked {
+    background-color: var(--clr-primary);
+    border-color: var(--clr-primary);
+}
+
+.form-check-input:focus {
+    border-color: var(--clr-primary);
+    box-shadow: 0 0 0 0.25rem rgba(252, 123, 47, 0.25);
 }
