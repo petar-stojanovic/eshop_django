@@ -1,0 +1,26 @@
+
+body {
+    background: #28292c;
+    font-family: 'Inter', sans-serif;
+}
+
+:root {
+    --clr-primary: #FC7B2F;
+    --clr-image-bg: #1F2125;
+    --clr-desc-bg: #131415;
+
+}
+
+.nav-link > button{
+    background: #0E0C13;
+    font-weight: bold;
+}
+
+.nav-link[data-active="active"] > button{
+    border-color: var(--clr-primary) !important;
+}
+
+#login, #logout{
+    background: var(--clr-primary);
+    ;
+}
