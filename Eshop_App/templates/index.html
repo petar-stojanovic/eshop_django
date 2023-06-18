@@ -1,8 +1,140 @@
 {% extends "base.html" %}
+{% load static %}
 {% block content %}
     <!-- default content text (typically empty) -->
-    <div>
+    <div class="container">
 
-        asdas
+    <h1 class="fw-bold my-4">Featured Desktops</h1>
+
+    <div id="carouselExampleFade" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+
+    {% for desktop in desktop_list %}
+
+        {% if forloop.counter0|divisibleby:"3" %}
+            {% if forloop.first %}
+                <div class="carousel-item active">
+                <div class="row">
+            {% else %}
+                <div class="carousel-item">
+                <div class="row">
+            {% endif %}
+        {% endif %}
+
+    <div class="col-4 p-0">
+        <div class="card bg-transparent border-0">
+            <div class="mx-3">
+
+                <div class="card-image d-flex">
+                    <img src="{{ desktop.image.url }}" class="d-block w-75 m-auto" alt="{{ desktop.name }}">
+                </div>
+                <div class="card-body text-white text-center d-flex justify-content-around flex-column">
+                    <h4 class="card-title fw-bold">{{ desktop.name }}</h4>
+                    <h5 class="fw-bold">{{ desktop.get_type_display }}</h5>
+                    <p class="card-text">${{ desktop.price }}</p>
+                    <div>
+                        <a href="#" class="customize btn rounded-pill fw-bold w-100"
+                           data-desktop-id="{{ desktop.pk }}">Customize</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if forloop.counter|divisibleby:"3" %}
+        </div>
+        </div>
+    {% endif %}
+
+    {% endfor %}
+
+
+</div>
+
+
+<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade"
+        data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+</button>
+<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade"
+        data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+</button>
+</div>
+
+    <h1 class="fw-bold my-4">Featured Laptops</h1>
+
+    <div id="carouselExampleFade1" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+
+        {% for laptop in laptop_list %}
+
+            {% if forloop.counter0|divisibleby:"3" %}
+                {% if forloop.first %}
+                    <div class="carousel-item active">
+                    <div class="row">
+                {% else %}
+                    <div class="carousel-item">
+                    <div class="row">
+                {% endif %}
+            {% endif %}
+
+        <div class="col-4 p-0">
+            <div class="card bg-transparent border-0">
+                <div class="mx-3">
+
+                    <div class="card-image d-flex">
+                        <img src="{{ laptop.image.url }}" class="d-block w-75 m-auto" alt="{{ laptop.name }}">
+                    </div>
+                    <div class="card-body text-white text-center d-flex justify-content-around flex-column">
+                        <h4 class="card-title fw-bold">{{ laptop.name }}</h4>
+                        <h5 class="fw-bold">{{ laptop.get_type_display }}</h5>
+                        <p class="card-text">${{ laptop.price }}</p>
+                        <div>
+                            <a href="#" class="customize btn rounded-pill fw-bold w-100"
+                               data-desktop-id="{{ laptop.pk }}">Customize</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if forloop.counter|divisibleby:"3" %}
+            </div>
+            </div>
+        {% endif %}
+
+        {% endfor %}
+
+
+        </div>
+
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade1"
+                data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade1"
+                data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+        </div>
+
+
+
+        <p class="text-center my-3 fs-4">OR</p>
+
+        <div class="text-center d-flex justify-content-evenly align-items-center w-75 m-auto mt-3 mb-5">
+            <a href="#" class="customize-own btn rounded-pill fw-bold py-3 px-4"
+               data-desktop-id="{{ desktop.pk }}">Customize your own <span>PC</span></a>
+
+            <a href="#" class="customize-own btn rounded-pill fw-bold py-3 px-4"
+               data-desktop-id="{{ desktop.pk }}">Customize your own <span>Laptop</span></a>
+        </div>
+
     </div>
 {% endblock %}

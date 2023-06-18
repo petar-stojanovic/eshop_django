@@ -70,3 +70,49 @@ body {
 .errorlist li {
     margin: 0.25rem 0;
 }
+
+img {
+    max-width: 100%;
+}
+
+.card {
+    min-height: 40rem;
+}
+
+.card-image {
+    background: var(--clr-image-bg);
+    min-height: 26rem;
+}
+
+.card-body {
+    background: var(--clr-desc-bg);
+    min-height: 13rem;
+}
+
+.customize {
+    border: 1px solid var(--clr-primary);
+    color: #eeeeee;
+}
+
+.customize:hover {
+    background: var(--clr-primary);
+    color: var(--clr-desc-bg);
+}
+
+.customize-own {
+    color: #eee;
+    background: var(--clr-desc-bg);
+}
+
+.customize-own:hover {
+    color: var(--clr-desc-bg);
+    background: var(--clr-primary);
+}
+
+
+.carousel-control-prev, .carousel-control-next {
+    width: 3rem;
+    aspect-ratio: 1;
+    top: 50%;
+    transform: translateY(-50%);
+}

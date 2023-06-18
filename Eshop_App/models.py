@@ -44,8 +44,16 @@ class Desktop(models.Model):
     storage_drive = models.ForeignKey(Component, on_delete=models.CASCADE, related_name='desktop_storage')
     extra_case_fans = models.ForeignKey(Component, on_delete=models.CASCADE, related_name='desktop_case_fans')
     operating_system = models.ForeignKey(Component, on_delete=models.CASCADE, related_name='desktop_os')
-
+    price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     image = models.ImageField(upload_to="images/", null=True, blank=True)
+
+    def calculate_price(self):
+        components = [self.processor, self.motherboard, self.graphics_card, self.storage_drive, self.memory,
+                      self.power_supply,
+                      self.storage_drive, self.extra_case_fans, self.operating_system]
+        total_price = sum(component.price for component in components if component)
+        self.price = total_price
+        self.save()
 
     # TODO: For filtering
     # category = Categories.objects.get(name='Storage Drive')
@@ -63,6 +71,7 @@ class Laptop(models.Model):
 
     name = models.CharField(max_length=100)
     type = models.CharField(max_length=10, choices=TYPE, default="small")
+    start_price = models.DecimalField(max_digits=7, decimal_places=2)
 
     exterior_color = models.ForeignKey(Component, on_delete=models.CASCADE, related_name='laptop_color')
     memory = models.ForeignKey(Component, on_delete=models.CASCADE, related_name='laptop_memory')
@@ -70,8 +79,17 @@ class Laptop(models.Model):
     additional_storage_drive = models.ForeignKey(Component, on_delete=models.CASCADE,
                                                  related_name='laptop_additional_storage')
     operating_system = models.ForeignKey(Component, on_delete=models.CASCADE, related_name='laptop_os')
-
+    price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     image = models.ImageField(upload_to="images/", null=True, blank=True)
+
+    def calculate_price(self):
+        components = [self.exterior_color, self.memory, self.operating_system_drive,
+                      self.additional_storage_drive,
+                      self.operating_system]
+        total_price = sum(component.price for component in components if component)
+        total_price += self.start_price
+        self.price = total_price
+        self.save()
 
     def __str__(self):
         return self.name

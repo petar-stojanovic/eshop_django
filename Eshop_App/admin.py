@@ -31,6 +31,8 @@ class DesktopAdmin(admin.ModelAdmin):
     image_display.short_description = 'Image'
 
 
+
+
 admin.site.register(Desktop, DesktopAdmin)
 
 
