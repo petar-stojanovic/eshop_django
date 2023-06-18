@@ -60,3 +60,13 @@ body {
     border-color: var(--clr-primary);
     box-shadow: 0 0 0 0.25rem rgba(252, 123, 47, 0.25);
 }
+
+.errorlist {
+    margin: 0 0;
+    padding: 0;
+    text-align: left;
+}
+
+.errorlist li {
+    margin: 0.25rem 0;
+}

@@ -3,17 +3,17 @@
 {% block content %}
     <div class="container-md p-0 my-md-5">
 
-        <div class="login-form col-lg-8 col-md-10 col-sm-12 m-auto text-center rounded-4 py-5">
+        <div class="login-form col-lg-8 col-md-10 col-sm-12 m-auto text-center rounded-4 py-5 shadow">
             <h1 class="fw-bold my-4">Log in to iBuyShop</h1>
 
             <form class="col-6 m-auto fw-bold" action="" method="POST">
                 {% csrf_token %}
 
                 <div class="my-4 text-start">
-                    <label for="exampleInputEmail1" class="form-label mb-1">Email</label>
-                    <input type="text" class="form-control fw-bold" id="exampleInputEmail1"
+                    <label for="exampleInputEmail1" class="form-label mb-1">Username</label>
+                    <input type="text" class="form-control fw-bold" id="exampleInputEmail1" autofocus
                            name="username"
-                           placeholder="Email address">
+                           placeholder="Username">
                 </div>
                 <div class="my-4 text-start">
                     <label for="exampleInputPassword1" class="form-label mb-1">Password</label>
@@ -33,7 +33,7 @@
             </form>
 
 
-            <p>Don't have an account? <a href="{% url 'password_reset' %}" class="text-decoration-none text-orange">Sign
+            <p>Don't have an account? <a href="{% url 'register' %}" class="text-decoration-none text-orange">Sign
                 up now</a></p>
         </div>
     </div>
