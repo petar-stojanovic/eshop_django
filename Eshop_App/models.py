@@ -24,3 +24,54 @@ class Component(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Desktop(models.Model):
+    TYPE = [
+        ('small', 'Small Desktop'),
+        ('premium', 'Premium Desktop'),
+        ('elite', 'Elite Desktop'),
+    ]
+
+    name = models.CharField(max_length=100)
+    type = models.CharField(max_length=10, choices=TYPE, default="small")
+
+    processor = models.ForeignKey(Component, on_delete=models.CASCADE, related_name='desktop_processor')
+    motherboard = models.ForeignKey(Component, on_delete=models.CASCADE, related_name='desktop_motherboard')
+    graphics_card = models.ForeignKey(Component, on_delete=models.CASCADE, related_name='desktop_graphics')
+    memory = models.ForeignKey(Component, on_delete=models.CASCADE, related_name='desktop_memory')
+    power_supply = models.ForeignKey(Component, on_delete=models.CASCADE, related_name='desktop_power')
+    storage_drive = models.ForeignKey(Component, on_delete=models.CASCADE, related_name='desktop_storage')
+    extra_case_fans = models.ForeignKey(Component, on_delete=models.CASCADE, related_name='desktop_case_fans')
+    operating_system = models.ForeignKey(Component, on_delete=models.CASCADE, related_name='desktop_os')
+
+    image = models.ImageField(upload_to="images/", null=True, blank=True)
+
+    # TODO: For filtering
+    # category = Categories.objects.get(name='Storage Drive')
+    # desktops = category.desktops_storage.all()
+    def __str__(self):
+        return self.name
+
+
+class Laptop(models.Model):
+    TYPE = [
+        ('small', 'Small Laptop'),
+        ('premium', 'Premium Laptop'),
+        ('elite', 'Elite Laptop'),
+    ]
+
+    name = models.CharField(max_length=100)
+    type = models.CharField(max_length=10, choices=TYPE, default="small")
+
+    exterior_color = models.ForeignKey(Component, on_delete=models.CASCADE, related_name='laptop_color')
+    memory = models.ForeignKey(Component, on_delete=models.CASCADE, related_name='laptop_memory')
+    operating_system_drive = models.ForeignKey(Component, on_delete=models.CASCADE, related_name='laptop_os_drive')
+    additional_storage_drive = models.ForeignKey(Component, on_delete=models.CASCADE,
+                                                 related_name='laptop_additional_storage')
+    operating_system = models.ForeignKey(Component, on_delete=models.CASCADE, related_name='laptop_os')
+
+    image = models.ImageField(upload_to="images/", null=True, blank=True)
+
+    def __str__(self):
+        return self.name
