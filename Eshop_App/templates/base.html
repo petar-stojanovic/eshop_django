@@ -28,22 +28,22 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" data-active="active" href="{% url 'home' %}">
-                        <button class="btn btn-dark  px-4 py-2 border border-danger border-2">Home</button>
+                    <a class="nav-link active browse_home" data-active="active" href="{% url 'home' %}">
+                        <button class="btn btn-dark px-4 py-2">Home</button>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'browse_desktops' %}">
+                    <a class="nav-link browse_desktops" href="{% url 'browse_desktops' %}">
                         <button class="btn btn-dark px-4 py-2">Desktops</button>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'browse_laptops' %}">
+                    <a class="nav-link browse_laptops" href="{% url 'browse_laptops' %}">
                         <button class="btn btn-dark px-4 py-2">Laptops</button>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'home' %}">
+                    <a class="nav-link browse_customize" href="{% url 'home' %}">
                         <button class="btn btn-dark px-4 py-2">Customize</button>
                     </a>
                 </li>

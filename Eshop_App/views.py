@@ -23,11 +23,29 @@ def index(request):
 
 
 def browse_desktops(request):
-    return render(request, "browse_desktops.html", context={})
+    # desktop_list = Desktop.objects.all().order_by("?")
+    desktop_list = Desktop.objects.all()
+
+    for desktop in desktop_list:
+        desktop.calculate_price()
+
+    context = {
+        "desktop_list": desktop_list,
+    }
+    return render(request, "browse_desktops.html", context=context)
 
 
 def browse_laptops(request):
-    return render(request, "browse_laptops.html", context={})
+    # laptop_list = Laptop.objects.all().order_by("?")
+    laptop_list = Laptop.objects.all()
+
+    for laptop in laptop_list:
+        laptop.calculate_price()
+
+    context = {
+        "laptop_list": laptop_list,
+    }
+    return render(request, "browse_laptops.html", context=context)
 
 # def create_component(request):
 #     if request.method == 'POST':

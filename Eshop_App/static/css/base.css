@@ -20,7 +20,7 @@ body {
 }
 
 .nav-link[data-active="active"] > button {
-    border-color: var(--clr-primary) !important;
+    border: 2px solid var(--clr-primary);
 }
 
 #login, #logout, #login-form {

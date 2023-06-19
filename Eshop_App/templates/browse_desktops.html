@@ -2,10 +2,41 @@
 {% load static %}
 {% block content %}
     <!-- default content text (typically empty) -->
-    <div class="container">
-
+    <div class="container mb-5">
         <h1 class="fw-bold my-4">Browse Desktops</h1>
 
+        <div class="row">
+            {% for desktop in desktop_list %}
+                <div class="col-xl-4 col-lg-6 col-md-12 p-0">
+                    <div class="card bg-transparent border-0">
+                        <div class="mx-3">
 
+                            <div class="card-image d-flex">
+                                <img src="{{ desktop.image.url }}" class="d-block w-75 m-auto" alt="{{ desktop.name }}">
+                            </div>
+                            <div class="card-body text-white text-center d-flex justify-content-around flex-column">
+                                <h4 class="card-title fw-bold">{{ desktop.name }}</h4>
+                                <h5 class="fw-bold">{{ desktop.get_type_display }}</h5>
+                                <p class="card-text">${{ desktop.price }}</p>
+                                <div>
+                                    <a href="#" class="customize btn rounded-pill fw-bold w-100"
+                                       data-desktop-id="{{ desktop.pk }}">Customize</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
     </div>
+
+    <script>
+        $(function () {
+            $("a.nav-link.browse_home").removeAttr("data-active");
+            $("a.nav-link.browse_laptops").removeAttr("data-active");
+            $("a.nav-link.browse_customize").removeAttr("data-active");
+            $("a.nav-link.browse_desktops").attr("data-active", "active");
+        })
+    </script>
 {% endblock %}

@@ -94,7 +94,7 @@
                         <p class="card-text">${{ laptop.price }}</p>
                         <div>
                             <a href="#" class="customize btn rounded-pill fw-bold w-100"
-                               data-desktop-id="{{ laptop.pk }}">Customize</a>
+                               data-laptop-id="{{ laptop.pk }}">Customize</a>
                         </div>
                     </div>
                 </div>
@@ -129,10 +129,10 @@
         <p class="text-center my-3 fs-4">OR</p>
 
         <div class="text-center d-flex justify-content-evenly align-items-center w-75 m-auto mt-3 mb-5">
-            <a href="#" class="customize-own btn rounded-pill fw-bold py-3 px-4"
+            <a href="{% url "browse_desktops" %}" class="customize-own btn rounded-pill fw-bold py-3 px-4"
                data-desktop-id="{{ desktop.pk }}">Customize your own <span>PC</span></a>
 
-            <a href="#" class="customize-own btn rounded-pill fw-bold py-3 px-4"
+            <a href="{% url "browse_laptops" %}" class="customize-own btn rounded-pill fw-bold py-3 px-4"
                data-desktop-id="{{ desktop.pk }}">Customize your own <span>Laptop</span></a>
         </div>
 
