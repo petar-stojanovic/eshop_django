@@ -10,39 +10,43 @@ body {
     --clr-image-bg: #1F2125;
     --clr-desc-bg: #131415;
 
-    --background: #0E0C13
+    --background: #0E0C13;
 
 }
 
 
-@media(min-width: 576px) {
+@media (min-width: 576px) {
     .container {
-        max-width:540px;
+        max-width: 540px;
     }
 }
 
-@media(min-width: 768px) {
+@media (min-width: 768px) {
     .container {
-        max-width:720px;
+        max-width: 720px;
     }
 }
 
-@media(min-width: 992px) {
+@media (min-width: 992px) {
     .container {
-        max-width:960px;
+        max-width: 960px;
     }
 }
 
-@media(min-width: 1200px) {
+@media (min-width: 1200px) {
     .container {
-        max-width:1140px;
+        max-width: 1140px;
     }
 }
 
-@media(min-width: 1440px) {
+@media (min-width: 1440px) {
     .container {
-        max-width:1410px;
+        max-width: 1410px;
     }
+}
+
+hr {
+    color: var(--clr-primary);
 }
 
 .nav-link > button, .dropdown-toggle {
@@ -155,4 +159,8 @@ img {
     aspect-ratio: 1;
     top: 50%;
     transform: translateY(-50%);
+}
+
+.customize-right {
+    background: var(--clr-desc-bg);
 }

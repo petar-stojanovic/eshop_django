@@ -38,7 +38,22 @@ def browse_desktops(request):
 
 @login_required(login_url="/members/login_user")
 def customize_desktop(request, id):
-    return render(request, "customize_desktops.html", context={})
+    desktop = Desktop.objects.filter(pk=id).first()
+
+    values = [
+        {'label': 'Processor', 'value': desktop.processor, 'class': 'processor'},
+        {'label': 'Motherboard', 'value': desktop.motherboard, 'class': 'motherboard'},
+        {'label': 'Graphics Card', 'value': desktop.graphics_card, 'class': 'graphics_card'},
+        {'label': 'Memory', 'value': desktop.memory, 'class': 'memory'},
+        {'label': 'Power Supply', 'value': desktop.power_supply, 'class': 'power_supply'},
+        {'label': 'Storage Drive', 'value': desktop.storage_drive, 'class': 'storage_drive'},
+    ]
+
+    context = {
+        "desktop": desktop,
+        "values": values
+    }
+    return render(request, "customize_desktops.html", context=context)
 
 
 @login_required(login_url="/members/login_user")

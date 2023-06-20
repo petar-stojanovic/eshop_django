@@ -1,36 +1,106 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-    <!-- default content text (typically empty) -->
-    <div class="container mb-5">
-        <h1 class="fw-bold my-4">Configure Your PC</h1>
-        {{ desktop }}
+
+    <style>
+        .accordion {
+            --bs-accordion-bg: var(--clr-desc-bg);
+            --bs-accordion-color: var(--clr-desc-bg);
+            --bs-accordion-btn-color: #eee;
+
+
+            --bs-accordion-active-color: var(--clr-primary);
+
+            --bs-accordion-btn-focus-box-shadow: 0 0 0 0.05rem var(--clr-primary);
+            --bs-accordion-border-color: black;
+
+
+            --bs-accordion-btn-active-icon: url("{% static "images/gore.svg" %}");
+            --bs-accordion-btn-icon-transform: 0;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background-color: var(--clr-desc-bg);
+            color: white;
+        }
+
+        .accordion-body {
+            background: var(--clr-image-bg);
+        }
+
+        .accordion-button.collapsed::after {
+            background-image: url("{% static "images/dole.svg" %}");
+        }
+
+        .sticky-top {
+            top: 7.5rem;
+        }
+
+    </style>
+
+    <div class="container mb-5 p-0">
+        <h1 class="fw-bold mt-4 mb-0">Configure Your PC</h1>
 
         <div class="row">
-            {% for laptop in laptop_list %}
-                <div class="col-xl-4 col-lg-6 col-md-12 p-0">
-                    <div class="card bg-transparent border-0">
-                        <div class="mx-3">
+            <div class="col-12 col-lg-12 col-xl-9">
+                <div class="pe-xl-5">
+                    <hr class="opacity-100 border-3"/>
+                    {{ desktop }}
 
-                            <div class="card-image d-flex">
-                                <img src="{{ laptop.image.url }}" class="d-block w-75 m-auto" alt="{{ laptop.name }}">
-                            </div>
-                            <div class="card-body text-white text-center d-flex justify-content-around flex-column">
-                                <h4 class="card-title fw-bold">{{ laptop.name }}</h4>
-                                <h5 class="fw-bold">{{ laptop.get_type_display }}</h5>
-                                <p class="card-text">${{ laptop.price }}</p>
-                                <div>
-                                    <a href="#" class="customize btn rounded-pill fw-bold w-100"
-                                       data-laptop-id="{{ laptop.pk }}">Customize</a>
+                    <div class="accordion" id="accordionExample">
+                        {% for item in values %}
+                            {#                            <li>{{ item.label }}: {{ item.value }}</li>#}
+                            <div class="accordion-item my-3">
+                                <h2 class="accordion-header" id="heading_{{ item.class }}">
+                                    <button class="accordion-button collapsed fw-bold fs-3" type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#collapse_{{ item.class }}" aria-expanded="false"
+                                            aria-controls="collapse_{{ item.class }}">
+                                        {{ item.label }}
+                                    </button>
+                                </h2>
+                                <div id="collapse_{{ item.class }}" class="accordion-collapse collapse"
+                                     aria-labelledby="heading_{{ item.class }}"
+                                     data-bs-parent="#accordionExample">
+                                    <div class="accordion-body text-white">
+                                        <strong>This is the first item's accordion body.</strong> It is shown by
+                                        default,
+                                        until the collapes. It's also worth note transition does limit overflow.
+                                    </div>
                                 </div>
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-3 col-xl-3 text-center rounded-3 p-0">
+                <div class="px-3 rounded-3 customize-right sticky-top">
+                    <div class="bg-transparent border-0">
+                        <div class="">
+
+                            <div class=" d-flex">
+                                <img src="{{ desktop.image.url }}" class="d-block m-auto" alt="{{ desktop.name }}">
+                            </div>
+                            <div class="card-body text-white text-center d-flex flex-column align-content-stretch justify-content-evenly">
+                                <h4 class="card-title fw-bold">{{ desktop.name }}</h4>
+                                <h5 class="fw-bold">{{ desktop.get_type_display }}</h5>
+                                <p class="card-text">${{ desktop.price }}</p>
+
+                                <a href="{% url "customize_desktop" desktop.pk %}"
+                                   class="customize btn rounded-pill fw-bold"
+                                   data-desktop-id="{{ desktop.pk }}">Customize</a>
+
                             </div>
                         </div>
                     </div>
                 </div>
-            {% endfor %}
+            </div>
 
         </div>
     </div>
+
 
 
     <script>
