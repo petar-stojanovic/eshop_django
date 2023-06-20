@@ -3,11 +3,12 @@
 {% block content %}
     <!-- default content text (typically empty) -->
     <div class="container mb-5">
-        <h1 class="fw-bold my-4">Browse Laptops</h1>
+        <h1 class="fw-bold my-4">Configure Your PC</h1>
+        {{ desktop }}
 
-     <div class="row">
+        <div class="row">
             {% for laptop in laptop_list %}
-                <div class="col-xl-4 col-lg-6 col-md-12 p-0 pb-3">
+                <div class="col-xl-4 col-lg-6 col-md-12 p-0">
                     <div class="card bg-transparent border-0">
                         <div class="mx-3">
 
@@ -19,7 +20,7 @@
                                 <h5 class="fw-bold">{{ laptop.get_type_display }}</h5>
                                 <p class="card-text">${{ laptop.price }}</p>
                                 <div>
-                                    <a href="{% url "customize_laptop" laptop.pk %}" class="customize btn rounded-pill fw-bold w-100"
+                                    <a href="#" class="customize btn rounded-pill fw-bold w-100"
                                        data-laptop-id="{{ laptop.pk }}">Customize</a>
                                 </div>
                             </div>
@@ -36,8 +37,8 @@
         $(function () {
             $("a.nav-link.browse_home").removeAttr("data-active");
             $("a.nav-link.browse_desktops").removeAttr("data-active");
-            $("a.nav-link.browse_customize").removeAttr("data-active");
-            $("a.nav-link.browse_laptops").attr("data-active", "active");
+            $("a.nav-link.browse_laptops").removeAttr("data-active");
+            $("a.nav-link.browse_customize").attr("data-active", "active");
         })
     </script>
 {% endblock %}

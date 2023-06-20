@@ -5,5 +5,7 @@ from . import views
 urlpatterns = [
     path('', views.index, name="home"),
     path('desktops/', views.browse_desktops, name="browse_desktops"),
-    path('laptops/', views.browse_laptops, name="browse_laptops")
+    path('desktop/<int:id>', views.customize_desktop, name="customize_desktop"),
+    path('laptops/', views.browse_laptops, name="browse_laptops"),
+    path('laptop/<int:id>', views.customize_laptop, name="customize_laptop"),
 ]

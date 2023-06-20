@@ -7,7 +7,7 @@
 
         <div class="row">
             {% for desktop in desktop_list %}
-                <div class="col-xl-4 col-lg-6 col-md-12 p-0">
+                <div class="col-xl-4 col-lg-6 col-md-12 p-0 pb-3">
                     <div class="card bg-transparent border-0">
                         <div class="mx-3">
 
@@ -19,7 +19,8 @@
                                 <h5 class="fw-bold">{{ desktop.get_type_display }}</h5>
                                 <p class="card-text">${{ desktop.price }}</p>
                                 <div>
-                                    <a href="#" class="customize btn rounded-pill fw-bold w-100"
+                                    <a href="{% url "customize_desktop" desktop.pk %}"
+                                       class="customize btn rounded-pill fw-bold w-100"
                                        data-desktop-id="{{ desktop.pk }}">Customize</a>
                                 </div>
                             </div>

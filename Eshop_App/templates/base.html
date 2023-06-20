@@ -17,7 +17,7 @@
 <body class="text-white">
 
 
-<nav class="navbar navbar-expand-lg" style="background: #323130">
+<nav class="navbar fixed-top navbar-expand-lg" style="background: #323130">
 
     <div class="container-fluid">
         <a class="navbar-brand ms-4" href="{% url 'home' %}"><img src="{% static 'logo.png' %}"/></a>
@@ -26,7 +26,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-center">
                 <li class="nav-item">
                     <a class="nav-link active browse_home" data-active="active" href="{% url 'home' %}">
                         <button class="btn btn-dark px-4 py-2">Home</button>
@@ -42,10 +42,15 @@
                         <button class="btn btn-dark px-4 py-2">Laptops</button>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link browse_customize" href="{% url 'home' %}">
-                        <button class="btn btn-dark px-4 py-2">Customize</button>
+                <li class="nav-item dropdown">
+                    <a class="btn btn-dark px-4 py-2 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Customize
                     </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item text-white fw-bold" href="#">Desktop</a></li>
+                        <li><a class="dropdown-item text-white fw-bold" href="#">Laptop</a></li>
+                    </ul>
                 </li>
             </ul>
             <div>
@@ -65,7 +70,7 @@
 
                             <span class="me-2">
                                  <a href="{% url 'register' %}"
-                               class="text-white text-decoration-none">Sign up</a>
+                                    class="text-white text-decoration-none">Sign up</a>
                             </span>
 
                             <a href="{% url 'login' %}"
@@ -79,6 +84,8 @@
     </div>
 
 </nav>
+
+<div style="margin-top: 7.5rem"></div>
 
 <div class="container">
     {% if messages %}

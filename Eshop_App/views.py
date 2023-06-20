@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import Desktop, Laptop
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -33,6 +34,16 @@ def browse_desktops(request):
         "desktop_list": desktop_list,
     }
     return render(request, "browse_desktops.html", context=context)
+
+
+@login_required(login_url="/members/login_user")
+def customize_desktop(request, id):
+    return render(request, "customize_desktops.html", context={})
+
+
+@login_required(login_url="/members/login_user")
+def customize_laptop(request, id):
+    return render(request, "customize_desktops.html", context={})
 
 
 def browse_laptops(request):

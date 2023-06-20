@@ -14,14 +14,54 @@ body {
 
 }
 
-.nav-link > button {
+
+@media(min-width: 576px) {
+    .container {
+        max-width:540px;
+    }
+}
+
+@media(min-width: 768px) {
+    .container {
+        max-width:720px;
+    }
+}
+
+@media(min-width: 992px) {
+    .container {
+        max-width:960px;
+    }
+}
+
+@media(min-width: 1200px) {
+    .container {
+        max-width:1140px;
+    }
+}
+
+@media(min-width: 1440px) {
+    .container {
+        max-width:1410px;
+    }
+}
+
+.nav-link > button, .dropdown-toggle {
     background: var(--background);
     font-weight: bold;
+}
+
+.dropdown-menu, a.dropdown-item {
+    background: var(--background);
+}
+
+a.dropdown-item:hover {
+    background: hsl(22, 80%, 59%);
 }
 
 .nav-link[data-active="active"] > button {
     border: 2px solid var(--clr-primary);
 }
+
 
 #login, #logout, #login-form {
     background: var(--clr-primary);
