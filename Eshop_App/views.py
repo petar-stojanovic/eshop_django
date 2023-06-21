@@ -62,7 +62,8 @@ def customize_desktop(request, id):
             category=Category.objects.filter(name="Graphics Card").first(), platform="desktop"),
          'class': 'graphics_card'},
         {'label': 'Memory', 'value': Component.objects.filter(
-            category=Category.objects.filter(name="Memory").first(), platform="desktop"), 'class': 'memory'},
+            category=Category.objects.filter(name="Memory").first(), platform="desktop"),
+         'class': 'memory'},
         {'label': 'Power Supply', 'value': Component.objects.filter(
             category=Category.objects.filter(name="Power Supply").first(), platform="desktop"),
          'class': 'power_supply'},
@@ -81,7 +82,7 @@ def customize_desktop(request, id):
         "desktop": desktop,
         "values": values,
         "form": DesktopForm,
-        "values_all":values_all,
+        "values_all": values_all,
     }
     return render(request, "customize_desktops.html", context=context)
 

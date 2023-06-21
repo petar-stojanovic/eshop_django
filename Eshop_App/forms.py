@@ -75,7 +75,7 @@ class DesktopForm(forms.Form):
     graphics_card = forms.ModelChoiceField(queryset=Component.objects.filter(
         category=Category.objects.filter(name="Graphics Card").first(), platform="desktop"))
     memory = forms.ModelChoiceField(queryset=Component.objects.filter(
-        category=Category.objects.filter(name="Graphics Card").first(), platform="desktop"))
+        category=Category.objects.filter(name="Memory").first(), platform="desktop"))
     power_supply = forms.ModelChoiceField(queryset=Component.objects.filter(
         category=Category.objects.filter(name="Power Supply").first(), platform="desktop"))
     storage_drive = forms.ModelChoiceField(queryset=Component.objects.filter(
