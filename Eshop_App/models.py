@@ -16,7 +16,7 @@ class Component(models.Model):
     ]
 
     name = models.CharField(max_length=255)
-    price = models.DecimalField(max_digits=7, decimal_places=2)
+    price = models.DecimalField(max_digits=8, decimal_places=2)
     platform = models.CharField(max_length=10, choices=PLATFORM_CHOICES, default="desktop")
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     description = models.TextField()
@@ -71,7 +71,7 @@ class Laptop(models.Model):
 
     name = models.CharField(max_length=100)
     type = models.CharField(max_length=10, choices=TYPE, default="small")
-    start_price = models.DecimalField(max_digits=7, decimal_places=2)
+    start_price = models.DecimalField(max_digits=8, decimal_places=2)
 
     exterior_color = models.ForeignKey(Component, on_delete=models.CASCADE, related_name='laptop_color')
     memory = models.ForeignKey(Component, on_delete=models.CASCADE, related_name='laptop_memory')
@@ -93,3 +93,32 @@ class Laptop(models.Model):
 
     def __str__(self):
         return self.name
+
+class DesktopOrder(models.Model):
+    processor = models.CharField(max_length=50)
+    motherboard = models.CharField(max_length=50)
+    graphics_card = models.CharField(max_length=50)
+    memory = models.CharField(max_length=50)
+    power_supply = models.CharField(max_length=50)
+    extra_case_fans = models.CharField(max_length=50)
+    storage_drive = models.CharField(max_length=50)
+    operating_system = models.CharField(max_length=50)
+    price = models.DecimalField(max_digits=8, decimal_places=2)
+    image = models.ImageField(upload_to='orders/images')
+
+    def __str__(self):
+        return f"Desktop Order #{self.pk}"
+
+
+class LaptopOrder(models.Model):
+    start_price = models.DecimalField(max_digits=8, decimal_places=2)
+    exterior_color = models.CharField(max_length=50)
+    memory = models.CharField(max_length=50)
+    operating_system_drive = models.CharField(max_length=50)
+    additional_storage_drive = models.CharField(max_length=50)
+    operating_system = models.CharField(max_length=50)
+    price = models.DecimalField(max_digits=8, decimal_places=2)
+    image = models.ImageField(upload_to='orders/images')
+
+    def __str__(self):
+        return f"Laptop Order #{self.pk}"

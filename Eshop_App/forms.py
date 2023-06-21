@@ -66,3 +66,12 @@ class LaptopAdminForm(forms.ModelForm):
         self.fields['operating_system'].queryset = Component.objects.filter(
             category=Category.objects.filter(name="Operating System").first(), platform="laptop")
 
+
+# class DesktopForm(forms.ModelForm):
+#
+#     def __init__(self):
+#         pass
+#
+#     class Meta:
+#         model = Desktop
+#         exclude = ("",)
