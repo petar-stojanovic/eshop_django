@@ -94,6 +94,7 @@ class Laptop(models.Model):
     def __str__(self):
         return self.name
 
+
 class DesktopOrder(models.Model):
     processor = models.CharField(max_length=50)
     motherboard = models.CharField(max_length=50)

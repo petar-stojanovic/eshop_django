@@ -1,5 +1,5 @@
 from django import forms
-from .models import Component, Category, Desktop, Laptop
+from .models import Component, Category, Desktop, Laptop, DesktopOrder, LaptopOrder
 
 
 class ComponentForm(forms.ModelForm):
@@ -67,11 +67,25 @@ class LaptopAdminForm(forms.ModelForm):
             category=Category.objects.filter(name="Operating System").first(), platform="laptop")
 
 
-# class DesktopForm(forms.ModelForm):
-#
-#     def __init__(self):
-#         pass
-#
-#     class Meta:
-#         model = Desktop
-#         exclude = ("",)
+class DesktopForm(forms.Form):
+    processor = forms.ModelChoiceField(queryset=Component.objects.filter(
+        category=Category.objects.filter(name="Processor").first(), platform="desktop"))
+    motherboard = forms.ModelChoiceField(queryset=Component.objects.filter(
+        category=Category.objects.filter(name="Motherboard").first(), platform="desktop"))
+    graphics_card = forms.ModelChoiceField(queryset=Component.objects.filter(
+        category=Category.objects.filter(name="Graphics Card").first(), platform="desktop"))
+    memory = forms.ModelChoiceField(queryset=Component.objects.filter(
+        category=Category.objects.filter(name="Graphics Card").first(), platform="desktop"))
+    power_supply = forms.ModelChoiceField(queryset=Component.objects.filter(
+        category=Category.objects.filter(name="Power Supply").first(), platform="desktop"))
+    storage_drive = forms.ModelChoiceField(queryset=Component.objects.filter(
+        category=Category.objects.filter(name="Storage Drive").first(), platform="desktop"))
+    extra_case_fans = forms.ModelChoiceField(queryset=Component.objects.filter(
+        category=Category.objects.filter(name="Extra Case Fans").first(), platform="desktop"))
+    operating_system = forms.ModelChoiceField(queryset=Component.objects.filter(
+        category=Category.objects.filter(name="Operating System").first(), platform="desktop"))
+
+    def __init__(self, *args, **kwargs):
+        super(DesktopForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control text-dark'

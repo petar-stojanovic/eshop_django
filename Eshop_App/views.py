@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from .models import Desktop, Laptop
+from .models import Desktop, Laptop, Component, Category
 from django.contrib.auth.decorators import login_required
+from .forms import DesktopForm
 
 
 # Create your views here.
@@ -47,11 +48,40 @@ def customize_desktop(request, id):
         {'label': 'Memory', 'value': desktop.memory, 'class': 'memory'},
         {'label': 'Power Supply', 'value': desktop.power_supply, 'class': 'power_supply'},
         {'label': 'Storage Drive', 'value': desktop.storage_drive, 'class': 'storage_drive'},
+        {'label': 'Extra Case Fans', 'value': desktop.extra_case_fans, 'class': 'extra_case_fans'},
+        {'label': 'Operating System', 'value': desktop.operating_system, 'class': 'operating_system'},
+    ]
+
+    values_all = [
+        {'label': 'Processor', 'value': Component.objects.filter(
+            category=Category.objects.filter(name="Processor").first(), platform="desktop"),
+         'class': 'processor'},
+        {'label': 'Motherboard', 'value': Component.objects.filter(
+            category=Category.objects.filter(name="Motherboard").first(), platform="desktop"), 'class': 'motherboard'},
+        {'label': 'Graphics Card', 'value': Component.objects.filter(
+            category=Category.objects.filter(name="Graphics Card").first(), platform="desktop"),
+         'class': 'graphics_card'},
+        {'label': 'Memory', 'value': Component.objects.filter(
+            category=Category.objects.filter(name="Memory").first(), platform="desktop"), 'class': 'memory'},
+        {'label': 'Power Supply', 'value': Component.objects.filter(
+            category=Category.objects.filter(name="Power Supply").first(), platform="desktop"),
+         'class': 'power_supply'},
+        {'label': 'Storage Drive', 'value': Component.objects.filter(
+            category=Category.objects.filter(name="Storage Drive").first(), platform="desktop"),
+         'class': 'storage_drive'},
+        {'label': 'Extra Case Fans', 'value': Component.objects.filter(
+            category=Category.objects.filter(name="Extra Case Fans").first(), platform="desktop"),
+         'class': 'extra_case_fans'},
+        {'label': 'Operating System', 'value': Component.objects.filter(
+            category=Category.objects.filter(name="Operating System").first(), platform="desktop"),
+         'class': 'operating_system'},
     ]
 
     context = {
         "desktop": desktop,
-        "values": values
+        "values": values,
+        "form": DesktopForm,
+        "values_all":values_all,
     }
     return render(request, "customize_desktops.html", context=context)
 

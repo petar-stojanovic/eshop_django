@@ -1,6 +1,6 @@
 
 body {
-    background: #28292c;
+    background: var(--body-background);
     font-family: 'Inter', sans-serif;
     color: #eeeeee;
 }
@@ -12,6 +12,7 @@ body {
 
     --background: #0E0C13;
 
+    --body-background: #28292c;
 }
 
 
@@ -130,7 +131,8 @@ img {
 
 .card-body {
     background: var(--clr-desc-bg);
-    min-height: 13rem;
+    min-height: 12rem;
+    padding-inline: 1.125rem;
 }
 
 .customize {
