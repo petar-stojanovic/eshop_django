@@ -45,119 +45,121 @@
         }
     </style>
 
+
     <div class="container mb-5 p-0">
-        <h1 class="fw-bold mt-4 mb-0">Configure Your PC</h1>
+        <form id="desktop_form" method="get">
+        {% csrf_token %}
+            <h1 class="fw-bold mt-4 mb-0">Configure Your PC</h1>
 
-        <div class="row">
-            <div class="col-12 col-lg-12 col-xl-9">
-                <div class="pe-xl-5">
-                    <hr class="opacity-100 border-3"/>
+            <div class="row">
+                <div class="col-12 col-lg-12 col-xl-9">
+                    <div class="pe-xl-5">
+                        <hr class="opacity-100 border-3"/>
 
-                    <div class="accordion" id="accordionExample">
-                        {% for item in values_all %}
-                            {#                            <li>{{ item.label }}: {{ item.value }}</li>#}
-                            <div class="accordion-item my-3">
-                                <h2 class="accordion-header" id="heading_{{ item.class }}">
-                                    <button class="accordion-button collapsed fw-bold fs-3" type="button"
-                                            data-bs-toggle="collapse"
-                                            data-bs-target="#collapse_{{ item.class }}" aria-expanded="false"
-                                            aria-controls="collapse_{{ item.class }}">
-                                        {{ item.label }}
-                                    </button>
-                                </h2>
-                                <div id="collapse_{{ item.class }}"
-                                     class="accordion-collapse collapse {% if item.label == "Processor" %} show {% endif %}"
-                                     aria-labelledby="heading_{{ item.class }}"
-                                     data-bs-parent="#accordionExample">
-                                    <div class="accordion-body text-white p-0">
+                        <div class="accordion" id="accordionExample">
+                            {% for item in values_all %}
+                                {#                            <li>{{ item.label }}: {{ item.value }}</li>#}
+                                <div class="accordion-item my-3">
+                                    <h2 class="accordion-header" id="heading_{{ item.class }}">
+                                        <button class="accordion-button collapsed fw-bold fs-3" type="button"
+                                                data-bs-toggle="collapse"
+                                                data-bs-target="#collapse_{{ item.class }}" aria-expanded="false"
+                                                aria-controls="collapse_{{ item.class }}">
+                                            {{ item.label }}
+                                        </button>
+                                    </h2>
+                                    <div id="collapse_{{ item.class }}"
+                                         class="accordion-collapse collapse {% if item.label == "Processor" %} show {% endif %}"
+                                         aria-labelledby="heading_{{ item.class }}"
+                                         data-bs-parent="#accordionExample">
+                                        <div class="accordion-body text-white p-0">
 
-                                        {#                                        <label for="id_{{ item.class }}">Processor:</label>#}
-                                        <div class="row">
-                                            {#                                            <select name="{{ item.class }}" id="id_{{ item.class }}">#}
+                                            <div class="row">
 
 
-                                            {% for part in item.value %}
-                                                {#                                                    <option selected="">#}
-                                                <div class="col-12 col-md-6 col-lg-4 col-xxl-4 pb-4">
-                                                    <div class="option customize-right {% if forloop.counter0 == 0 %} selected-item {% endif %}">
-                                                        <div class="border-0">
-                                                            <div class="" style="background: #28292C">
+                                                {% for part in item.value %}
+                                                    {#                                                    <option selected="">#}
+                                                    <div class="col-12 col-md-6 col-lg-4 col-xxl-4 pb-4">
+                                                        <div class="option customize-right {% if forloop.counter0 == 0 %} selected-item {% endif %}" >
+                                                        <input type="hidden" value="{{ part.image.url }}" form="desktop_form">
+                                                            <div class="border-0">
+                                                                <div class="" style="background: #28292C">
 
-                                                                <div class="card-image d-flex">
-                                                                    <img src="{{ part.image.url }}"
-                                                                         class="d-block m-auto"
-                                                                         alt="{{ part.image }}">
-                                                                </div>
-                                                                <div class="card-body text-white text-center d-flex flex-column align-content-stretch justify-content-evenly">
-                                                                    <h5 class="card-title fw-bold">{{ part.name }}</h5>
-                                                                    <p class="card-text fs-5 fw-bold">
-                                                                        ${{ part.price }}</p>
+                                                                    <div class="card-image d-flex">
+                                                                        <img src="{{ part.image.url }}"
+                                                                             class="d-block m-auto"
+                                                                             alt="{{ part.image }}">
+                                                                    </div>
+                                                                    <div class="card-body text-white text-center d-flex flex-column align-content-stretch justify-content-evenly">
+                                                                        <h5 class="card-title fw-bold">{{ part.name }}</h5>
+                                                                        <p class="card-text fs-5 fw-bold">
+                                                                            ${{ part.price }}</p>
 
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                {#                                                    </option>#}
-                                            {% endfor %}
-                                            {#                                            </select>#}
+                                                {% endfor %}
+                                                {#                                            </select>#}
 
 
-                                            {#                                            <label for="id_processor">Processor:</label>#}
-                                            {#                                            <select name="processor" class="form-control text-dark" required=""#}
-                                            {#                                                    id="id_processor">#}
-                                            {#                                                <option value="" selected="">---------</option>#}
-                                            {##}
-                                            {#                                                <option value="1">Intel Core i9-13900K 24-Cores 3.0GHz (5.8GHz#}
-                                            {#                                                    TurboBoost)#}
-                                            {#                                                </option>#}
-                                            {##}
-                                            {#                                                <option value="2">Intel Core i5-13600K 14-Cores 3.5GHz (5.1GHz#}
-                                            {#                                                    TurboBoost)#}
-                                            {#                                                </option>#}
-                                            {##}
-                                            {##}
-                                            {#                                            </select>#}
+                                                {#                                            <label for="id_processor">Processor:</label>#}
+                                                {#                                            <select name="processor" class="form-control text-dark" required=""#}
+                                                {#                                                    id="id_processor">#}
+                                                {#                                                <option value="" selected="">---------</option>#}
+                                                {##}
+                                                {#                                                <option value="1">Intel Core i9-13900K 24-Cores 3.0GHz (5.8GHz#}
+                                                {#                                                    TurboBoost)#}
+                                                {#                                                </option>#}
+                                                {##}
+                                                {#                                                <option value="2">Intel Core i5-13600K 14-Cores 3.5GHz (5.1GHz#}
+                                                {#                                                    TurboBoost)#}
+                                                {#                                                </option>#}
+                                                {##}
+                                                {##}
+                                                {#                                            </select>#}
+
+                                            </div>
 
                                         </div>
-
                                     </div>
                                 </div>
-                            </div>
-                        {% endfor %}
+                            {% endfor %}
 
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-12 col-lg-3 col-xl-3 text-center rounded-3 p-0">
-                <div class="px-xl-3 rounded-3 customize-right sticky-top">
-                    <div class="bg-transparent border-0">
-                        <div>
+                <div class="col-12 col-lg-3 col-xl-3 text-center rounded-3 p-0">
+                    <div class="px-xl-3 rounded-3 customize-right sticky-top">
+                        <div class="bg-transparent border-0">
+                            <div>
 
-                            <div class="d-flex card-image img-buy">
-                                <img src="{{ desktop.image.url }}" class="d-block m-auto" alt="{{ desktop.name }}">
-                            </div>
-                            <div class="card-body text-white text-center d-flex flex-column align-content-stretch">
-                                <h4 class="card-title fw-bold">{{ desktop.name }}</h4>
-                                <h5 class="fw-bold">{{ desktop.get_type_display }}</h5>
-                                <p class="card-text">${{ desktop.price }}</p>
+                                <div class="d-flex card-image img-buy">
+                                    <img src="{{ desktop.image.url }}" class="d-block m-auto" alt="{{ desktop.name }}">
+                                </div>
+                                <div class="card-body text-white text-center d-flex flex-column align-content-stretch">
+                                    <h4 class="card-title fw-bold">{{ desktop.name }}</h4>
+                                    <h5 class="fw-bold">{{ desktop.get_type_display }}</h5>
+                                    <p class="card-text">${{ desktop.price }}</p>
 
-                                <a href="#checkout{# {% url "customize_desktop" desktop.pk %} #}"
-                                   class="customize btn rounded-pill fw-bold"
-                                   id="checkout" data-desktop-id="{{ desktop.pk }}">Checkout</a>
 
+                                    <input type="submit" class="customize btn rounded-pill fw-bold" value="Checkout" form="desktop_form" />
+{#                                    <a href="#checkout{# {% url "customize_desktop" desktop.pk %} #}
+{#                                       class="customize btn rounded-pill fw-bold"#}
+{#                                       id="checkout" data-desktop-id="{{ desktop.pk }}">Checkout</a>#}
+
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+
+{#                {{ form }}#}
             </div>
-
-
-            <form>
-                {{ form }}
-            </form>
-        </div>
+        </form>
     </div>
 
 
