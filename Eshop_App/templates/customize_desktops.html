@@ -58,7 +58,8 @@
 
                         <div class="accordion" id="accordionExample">
                             {% for item in values_all %}
-                                <input type="hidden" id="id_{{ item.class }}" name="{{ item.class }}" value="{{ item.value.all.0 }}"
+                                <input type="hidden" id="id_{{ item.class }}" name="{{ item.class }}"
+                                       value="{{ item.value.all.0 }}"
                                        form="desktop_form">
 
                                 {#                            <li>{{ item.label }}: {{ item.value }}</li>#}
@@ -82,7 +83,7 @@
 
                                                 {% for part in item.value %}
                                                     <div class="col-12 col-md-6 col-lg-4 col-xxl-4 pb-4">
-                                                        <div class="option customize-right {% if forloop.counter0 == 0 %} selected-item {% endif %}">
+                                                        <div class="option customize-right {% if forloop.counter0 == 0 %} selected-item {% endif %}" data-for="{{ item.class }}" data-pk="{{ part.pk }}">
                                                             <div class="border-0">
                                                                 <div class="" style="background: #28292C">
 
@@ -102,30 +103,13 @@
                                                         </div>
                                                     </div>
                                                 {% endfor %}
-                                                {#                                            </select>#}
-
-
-                                                {#                                            <label for="id_processor">Processor:</label>#}
-                                                {#                                            <select name="processor" class="form-control text-dark" required=""#}
-                                                {#                                                    id="id_processor">#}
-                                                {#                                                <option value="" selected="">---------</option>#}
-                                                {##}
-                                                {#                                                <option value="1">Intel Core i9-13900K 24-Cores 3.0GHz (5.8GHz#}
-                                                {#                                                    TurboBoost)#}
-                                                {#                                                </option>#}
-                                                {##}
-                                                {#                                                <option value="2">Intel Core i5-13600K 14-Cores 3.5GHz (5.1GHz#}
-                                                {#                                                    TurboBoost)#}
-                                                {#                                                </option>#}
-                                                {##}
-                                                {##}
-                                                {#                                            </select>#}
 
                                             </div>
 
                                         </div>
                                     </div>
                                 </div>
+
                             {% endfor %}
 
                         </div>
@@ -148,9 +132,6 @@
 
                                     <input type="submit" class="customize btn rounded-pill fw-bold" value="Checkout"
                                            form="desktop_form"/>
-                                    {#                                    <a href="#checkout{# {% url "customize_desktop" desktop.pk %} #}
-                                    {#                                       class="customize btn rounded-pill fw-bold"#}
-                                    {#                                       id="checkout" data-desktop-id="{{ desktop.pk }}">Checkout</a>#}
 
                                 </div>
                             </div>
@@ -158,8 +139,10 @@
                     </div>
                 </div>
 
-
-{#                                                {{ form }}#}
+<form>
+                                                                {{ form }}
+    <input type="submit">
+</form>
             </div>
         </form>
     </div>
@@ -177,6 +160,17 @@
             $(".option").click(
                 function (event) {
                     $(this).parent().parent().find(".selected-item").removeClass("selected-item");
+
+                    let component = $(this).attr("data-for")
+                    let value = $(this).attr("data-pk")
+                    $(`input[name=${component}]`).attr("value",value)
+
+
+                    {#<input type="text" id="id_{{ item.class }}" name="{{ item.class }}"#}
+                    {#                 value="{{ item.value.all.0 }}"#}
+                    {#                 form="desktop_form">#}
+
+
                     $(this).addClass("selected-item");
                 }
             );
