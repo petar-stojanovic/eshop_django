@@ -41,17 +41,6 @@ def browse_desktops(request):
 def customize_desktop(request, id):
     desktop = Desktop.objects.filter(pk=id).first()
 
-    values = [
-        {'label': 'Processor', 'value': desktop.processor, 'class': 'processor'},
-        {'label': 'Motherboard', 'value': desktop.motherboard, 'class': 'motherboard'},
-        {'label': 'Graphics Card', 'value': desktop.graphics_card, 'class': 'graphics_card'},
-        {'label': 'Memory', 'value': desktop.memory, 'class': 'memory'},
-        {'label': 'Power Supply', 'value': desktop.power_supply, 'class': 'power_supply'},
-        {'label': 'Storage Drive', 'value': desktop.storage_drive, 'class': 'storage_drive'},
-        {'label': 'Extra Case Fans', 'value': desktop.extra_case_fans, 'class': 'extra_case_fans'},
-        {'label': 'Operating System', 'value': desktop.operating_system, 'class': 'operating_system'},
-    ]
-
     values_all = [
         {'label': 'Processor', 'value': Component.objects.filter(
             category=Category.objects.filter(name="Processor").first(), platform="desktop"),
@@ -80,7 +69,6 @@ def customize_desktop(request, id):
 
     context = {
         "desktop": desktop,
-        "values": values,
         "form": DesktopForm,
         "values_all": values_all,
     }

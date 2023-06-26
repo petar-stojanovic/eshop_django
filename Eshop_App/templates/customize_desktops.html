@@ -47,8 +47,8 @@
 
 
     <div class="container mb-5 p-0">
-        <form id="desktop_form" method="get">
-        {% csrf_token %}
+        <form id="desktop_form" method="post">
+            {% csrf_token %}
             <h1 class="fw-bold mt-4 mb-0">Configure Your PC</h1>
 
             <div class="row">
@@ -58,6 +58,9 @@
 
                         <div class="accordion" id="accordionExample">
                             {% for item in values_all %}
+                                <input type="hidden" id="id_{{ item.class }}" name="{{ item.class }}" value="{{ item.value.all.0 }}"
+                                       form="desktop_form">
+
                                 {#                            <li>{{ item.label }}: {{ item.value }}</li>#}
                                 <div class="accordion-item my-3">
                                     <h2 class="accordion-header" id="heading_{{ item.class }}">
@@ -78,10 +81,8 @@
 
 
                                                 {% for part in item.value %}
-                                                    {#                                                    <option selected="">#}
                                                     <div class="col-12 col-md-6 col-lg-4 col-xxl-4 pb-4">
-                                                        <div class="option customize-right {% if forloop.counter0 == 0 %} selected-item {% endif %}" >
-                                                        <input type="hidden" value="{{ part.image.url }}" form="desktop_form">
+                                                        <div class="option customize-right {% if forloop.counter0 == 0 %} selected-item {% endif %}">
                                                             <div class="border-0">
                                                                 <div class="" style="background: #28292C">
 
@@ -145,10 +146,11 @@
                                     <p class="card-text">${{ desktop.price }}</p>
 
 
-                                    <input type="submit" class="customize btn rounded-pill fw-bold" value="Checkout" form="desktop_form" />
-{#                                    <a href="#checkout{# {% url "customize_desktop" desktop.pk %} #}
-{#                                       class="customize btn rounded-pill fw-bold"#}
-{#                                       id="checkout" data-desktop-id="{{ desktop.pk }}">Checkout</a>#}
+                                    <input type="submit" class="customize btn rounded-pill fw-bold" value="Checkout"
+                                           form="desktop_form"/>
+                                    {#                                    <a href="#checkout{# {% url "customize_desktop" desktop.pk %} #}
+                                    {#                                       class="customize btn rounded-pill fw-bold"#}
+                                    {#                                       id="checkout" data-desktop-id="{{ desktop.pk }}">Checkout</a>#}
 
                                 </div>
                             </div>
@@ -157,7 +159,7 @@
                 </div>
 
 
-{#                {{ form }}#}
+{#                                                {{ form }}#}
             </div>
         </form>
     </div>
