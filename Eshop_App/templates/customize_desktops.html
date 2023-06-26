@@ -2,185 +2,200 @@
 {% load static %}
 {% block content %}
 
-    <style>
-        .accordion {
-            --bs-accordion-bg: var(--clr-desc-bg);
-            --bs-accordion-color: var(--clr-desc-bg);
-            --bs-accordion-btn-color: #eee;
+<style>
+    .accordion {
+        --bs-accordion-bg: var(--clr-desc-bg);
+        --bs-accordion-color: var(--clr-desc-bg);
+        --bs-accordion-btn-color: #eee;
 
 
-            --bs-accordion-active-color: var(--clr-primary);
+        --bs-accordion-active-color: var(--clr-primary);
 
-            --bs-accordion-btn-focus-box-shadow: 0 0 0 0.05rem var(--clr-primary);
-            --bs-accordion-border-width: 0;
-
-
-            --bs-accordion-btn-active-icon: url("{% static "images/gore.svg" %}");
-            --bs-accordion-btn-icon-transform: 0;
-        }
-
-        .accordion-button:not(.collapsed) {
-            background-color: var(--clr-desc-bg);
-            color: white;
-        }
-
-        .accordion-body {
-            background: var(--body-background);
-        }
-
-        .accordion-button.collapsed::after {
-            background-image: url("{% static "images/dole.svg" %}");
-        }
-
-        .sticky-top {
-            top: 7.5rem;
-        }
-
-        .img-buy {
-            background: var(--clr-desc-bg);
-        }
-
-        .selected-item {
-            border: 3px solid var(--clr-primary);
-        }
-    </style>
+        --bs-accordion-btn-focus-box-shadow: 0 0 0 0.05rem var(--clr-primary);
+        --bs-accordion-border-width: 0;
 
 
-    <div class="container mb-5 p-0">
-        <form id="desktop_form" method="post">
-            {% csrf_token %}
-            <h1 class="fw-bold mt-4 mb-0">Configure Your PC</h1>
+        --bs-accordion-btn-active-icon: url("{% static "images/gore.svg" %}");
+        --bs-accordion-btn-icon-transform: 0;
+    }
 
-            <div class="row">
-                <div class="col-12 col-lg-12 col-xl-9">
-                    <div class="pe-xl-5">
-                        <hr class="opacity-100 border-3"/>
+    .accordion-button:not(.collapsed) {
+        background-color: var(--clr-desc-bg);
+        color: white;
+    }
 
-                        <div class="accordion" id="accordionExample">
-                            {% for item in values_all %}
-                                <input type="hidden" id="id_{{ item.class }}" name="{{ item.class }}"
-                                       value="{{ item.value.all.0 }}"
-                                       form="desktop_form">
+    .accordion-body {
+        background: var(--body-background);
+    }
 
-                                {#                            <li>{{ item.label }}: {{ item.value }}</li>#}
-                                <div class="accordion-item my-3">
-                                    <h2 class="accordion-header" id="heading_{{ item.class }}">
-                                        <button class="accordion-button collapsed fw-bold fs-3" type="button"
-                                                data-bs-toggle="collapse"
-                                                data-bs-target="#collapse_{{ item.class }}" aria-expanded="false"
-                                                aria-controls="collapse_{{ item.class }}">
-                                            {{ item.label }}
-                                        </button>
-                                    </h2>
-                                    <div id="collapse_{{ item.class }}"
-                                         class="accordion-collapse collapse {% if item.label == "Processor" %} show {% endif %}"
-                                         aria-labelledby="heading_{{ item.class }}"
-                                         data-bs-parent="#accordionExample">
-                                        <div class="accordion-body text-white p-0">
+    .accordion-button.collapsed::after {
+        background-image: url("{% static "images/dole.svg" %}");
+    }
 
-                                            <div class="row">
+    .sticky-top {
+        top: 7.5rem;
+    }
+
+    .img-buy {
+        background: var(--clr-desc-bg);
+    }
+
+    .selected-item {
+        border: 3px solid var(--clr-primary);
+    }
+</style>
 
 
-                                                {% for part in item.value %}
-                                                    <div class="col-12 col-md-6 col-lg-4 col-xxl-4 pb-4">
-                                                        <div class="option customize-right {% if forloop.counter0 == 0 %} selected-item {% endif %}" data-for="{{ item.class }}" data-pk="{{ part.pk }}">
-                                                            <div class="border-0">
-                                                                <div class="" style="background: #28292C">
+<div class="container mb-5 p-0">
+    <form id="desktop_form" method="post">
+        {% csrf_token %}
+        <h1 class="fw-bold mt-4 mb-0">Configure Your PC</h1>
 
-                                                                    <div class="card-image d-flex">
-                                                                        <img src="{{ part.image.url }}"
-                                                                             class="d-block m-auto"
-                                                                             alt="{{ part.image }}">
-                                                                    </div>
-                                                                    <div class="card-body text-white text-center d-flex flex-column align-content-stretch justify-content-evenly">
-                                                                        <h5 class="card-title fw-bold">{{ part.name }}</h5>
-                                                                        <p class="card-text fs-5 fw-bold">
-                                                                            ${{ part.price }}</p>
+        <div class="row">
+            <div class="col-12 col-lg-12 col-xl-9">
+                <div class="pe-xl-5">
+                    <hr class="opacity-100 border-3" />
 
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                    <div class="accordion" id="accordionExample">
+                        {% for item in values_all %}
+                        <input type="hidden" id="id_{{ item.class }}" name="{{ item.class }}"
+                            value="{{ item.value.all.0.pk }}" data-price="{{ item.value.all.0.price }}"
+                            form="desktop_form">
+
+                        {# <li>{{ item.label }}: {{ item.value }}</li>#}
+                        <div class="accordion-item my-3">
+                            <h2 class="accordion-header" id="heading_{{ item.class }}">
+                                <button class="accordion-button collapsed fw-bold fs-3" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#collapse_{{ item.class }}"
+                                    aria-expanded="false" aria-controls="collapse_{{ item.class }}">
+                                    {{ item.label }}
+                                </button>
+                            </h2>
+                            <div id="collapse_{{ item.class }}" class="accordion-collapse collapse {% if item.label == "Processor" %} show {% endif %}" aria-labelledby="heading_{{ item.class }}"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body text-white p-0">
+
+                                    <div class="row">
+
+
+                                        {% for part in item.value %}
+                                        <div class="col-12 col-md-6 col-lg-4 col-xxl-4 pb-4">
+                                            <div class="option customize-right {% if forloop.counter0 == 0 %} selected-item {% endif %}"
+                                                data-for="{{ item.class }}" data-pk="{{ part.pk }}"
+                                                data-price="{{ part.price }}">
+                                                <div class="border-0">
+                                                    <div class="" style="background: #28292C">
+
+                                                        <div class="card-image d-flex">
+                                                            <img src="{{ part.image.url }}" class="d-block m-auto"
+                                                                alt="{{ part.image }}">
+                                                        </div>
+                                                        <div
+                                                            class="card-body text-white text-center d-flex flex-column align-content-stretch justify-content-evenly">
+                                                            <h5 class="card-title fw-bold">{{ part.name }}</h5>
+                                                            <p class="card-text fs-5 fw-bold">
+                                                                ${{ part.price }}</p>
+
+
+
                                                         </div>
                                                     </div>
-                                                {% endfor %}
-
+                                                </div>
                                             </div>
-
                                         </div>
+                                        {% endfor %}
+
                                     </div>
-                                </div>
-
-                            {% endfor %}
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12 col-lg-3 col-xl-3 text-center rounded-3 p-0">
-                    <div class="px-xl-3 rounded-3 customize-right sticky-top">
-                        <div class="bg-transparent border-0">
-                            <div>
-
-                                <div class="d-flex card-image img-buy">
-                                    <img src="{{ desktop.image.url }}" class="d-block m-auto" alt="{{ desktop.name }}">
-                                </div>
-                                <div class="card-body text-white text-center d-flex flex-column align-content-stretch">
-                                    <h4 class="card-title fw-bold">{{ desktop.name }}</h4>
-                                    <h5 class="fw-bold">{{ desktop.get_type_display }}</h5>
-                                    <p class="card-text">${{ desktop.price }}</p>
-
-
-                                    <input type="submit" class="customize btn rounded-pill fw-bold" value="Checkout"
-                                           form="desktop_form"/>
 
                                 </div>
                             </div>
                         </div>
+
+                        {% endfor %}
+
                     </div>
                 </div>
-
-<form>
-                                                                {{ form }}
-    <input type="submit">
-</form>
             </div>
-        </form>
-    </div>
+
+            <div class="col-12 col-lg-3 col-xl-3 text-center rounded-3 p-0">
+                <div class="px-xl-3 rounded-3 customize-right sticky-top">
+                    <div class="bg-transparent border-0">
+                        <div>
+
+                            <div class="d-flex card-image img-buy">
+                                <img src="{{ desktop.image.url }}" class="d-block m-auto" alt="{{ desktop.name }}">
+                            </div>
+                            <div class="card-body text-white text-center d-flex flex-column align-content-stretch">
+                                <h4 class="card-title fw-bold">{{ desktop.name }}</h4>
+                                <h5 class="fw-bold">{{ desktop.get_type_display }}</h5>
+                                <p class="card-text" id="checkout_price">${{ desktop.price }}</p>
+
+                                <input type="hidden" id="id_price" name="price" value="" form="desktop_form">
+
+                                <input type="submit" class="customize btn rounded-pill fw-bold" value="Checkout"
+                                    form="desktop_form" />
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+           {#<form>#}
+                {# {{ form }}#}
+                {# <input type="submit">#}
+                {#</form>#}
+        </div>
+    </form>
+</div>
 
 
 
-    <script>
-        $(function () {
-            $("a.nav-link.browse_home").removeAttr("data-active");
-            $("a.nav-link.browse_desktops").removeAttr("data-active");
-            $("a.nav-link.browse_laptops").removeAttr("data-active");
-            $("a.nav-link.browse_customize").attr("data-active", "active");
+<script>
+    $(function () {
+        $(window).on("load", function () {
+                updatePrice()
+        });
+
+        $("a.nav-link.browse_home").removeAttr("data-active");
+        $("a.nav-link.browse_desktops").removeAttr("data-active");
+        $("a.nav-link.browse_laptops").removeAttr("data-active");
+        $("a.nav-link.browse_customize").attr("data-active", "active");
 
 
-            $(".option").click(
-                function (event) {
-                    $(this).parent().parent().find(".selected-item").removeClass("selected-item");
+        $(".option").click(
+            function (event) {
+                $(this).parent().parent().find(".selected-item").removeClass("selected-item")
 
-                    let component = $(this).attr("data-for")
-                    let value = $(this).attr("data-pk")
-                    $(`input[name=${component}]`).attr("value",value)
-
-
-                    {#<input type="text" id="id_{{ item.class }}" name="{{ item.class }}"#}
-                    {#                 value="{{ item.value.all.0 }}"#}
-                    {#                 form="desktop_form">#}
+                let component = $(this).attr("data-for")
+                let value = $(this).attr("data-pk")
+                let price = $(this).attr("data-price")
+                $(`input[name=${component}]`).attr("value", value)
+                $(`input[name=${component}]`).attr("data-price", price)
 
 
-                    $(this).addClass("selected-item");
-                }
-            );
+                $(this).addClass("selected-item");
 
-            $("#checkout").click(
-                function (e) {
-                    console.log("omg")
-                    console.log($(".selected-item"))
-                }
-            )
-        })
-    </script>
+                updatePrice()
+            }
+        );
+
+        function updatePrice() {
+            let price=0;
+            $('input[type=hidden]').not("input[name='csrfmiddlewaretoken']").not("#id_price").each(function (){
+                price += parseInt( $(this).attr('data-price'));
+            })
+
+            $("#checkout_price").html(`\$${price}.00`);
+            $("#id_price").attr("value", price);
+        }
+
+        $("#checkout").click(
+            function (e) {
+                console.log("omg")
+                console.log($(".selected-item"))
+            }
+        )
+    })
+</script>
 {% endblock %}

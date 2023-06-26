@@ -1,5 +1,6 @@
-from django.shortcuts import render
-from .models import Desktop, Laptop, Component, Category
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect
+from .models import Desktop, Laptop, Component, Category, DesktopOrder
 from django.contrib.auth.decorators import login_required
 from .forms import DesktopForm
 
@@ -40,6 +41,32 @@ def browse_desktops(request):
 @login_required(login_url="/members/login_user")
 def customize_desktop(request, id):
     desktop = Desktop.objects.filter(pk=id).first()
+    if desktop is None:
+        return redirect('browse_desktops')
+
+    if request.method == "POST":
+        form = DesktopForm(request.POST)
+        if form.is_valid():
+            desktop_save = DesktopOrder(
+                processor=form.data['processor'],
+                motherboard=form.data['motherboard'],
+                graphics_card=form.data['graphics_card'],
+                memory=form.data['memory'],
+                power_supply=form.data['power_supply'],
+                extra_case_fans=form.data['extra_case_fans'],
+                storage_drive=form.data['storage_drive'],
+                operating_system=form.data['operating_system'],
+                price=form.data['price'],
+                image=desktop.image,
+            )
+            #
+            #     first_name=form.data['first_name'],
+            #     last_name=form.data['last_name'],
+            #     year_of_birth=form.data['year_of_birth'],
+            #     country=form.data['country'],
+            # )
+            desktop_save.save()
+            return HttpResponseRedirect("/")
 
     values_all = [
         {'label': 'Processor', 'value': Component.objects.filter(

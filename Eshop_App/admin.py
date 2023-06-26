@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 from .forms import DesktopAdminForm, LaptopAdminForm
-from .models import Category, Component, Desktop, Laptop
+from .models import Category, Component, Desktop, Laptop, DesktopOrder
 
 # Register your models here.
 admin.site.register(Category)
@@ -31,8 +31,6 @@ class DesktopAdmin(admin.ModelAdmin):
     image_display.short_description = 'Image'
 
 
-
-
 admin.site.register(Desktop, DesktopAdmin)
 
 
@@ -48,3 +46,12 @@ class LaptopAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Laptop, LaptopAdmin)
+
+
+class DesktopOrderAdmin(admin.ModelAdmin):
+
+    def has_change_permission(self, request, obj=None):
+        return None
+
+
+admin.site.register(DesktopOrder, DesktopOrderAdmin)
