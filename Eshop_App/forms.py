@@ -89,3 +89,21 @@ class DesktopForm(forms.Form):
         super(DesktopForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control text-dark'
+
+
+class LaptopForm(forms.Form):
+    exterior_color = forms.ModelChoiceField(queryset=Component.objects.filter(
+        category=Category.objects.filter(name="Exterior Color").first(), platform="laptop"))
+    memory = forms.ModelChoiceField(queryset=Component.objects.filter(
+        category=Category.objects.filter(name="Memory").first(), platform="laptop"))
+    operating_system_drive = forms.ModelChoiceField(queryset=Component.objects.filter(
+        category=Category.objects.filter(name="Operating System Drive").first(), platform="laptop"))
+    additional_storage_drive = forms.ModelChoiceField(queryset=Component.objects.filter(
+        category=Category.objects.filter(name="Additional Storage Drive").first(), platform="laptop"))
+    operating_system = forms.ModelChoiceField(queryset=Component.objects.filter(
+        category=Category.objects.filter(name="Operating System").first(), platform="laptop"))
+
+    def __init__(self, *args, **kwargs):
+        super(LaptopForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control text-dark'

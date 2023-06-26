@@ -1,8 +1,8 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
-from .models import Desktop, Laptop, Component, Category, DesktopOrder
+from .models import Desktop, Laptop, Component, Category, DesktopOrder, LaptopOrder
 from django.contrib.auth.decorators import login_required
-from .forms import DesktopForm
+from .forms import DesktopForm, LaptopForm
 
 
 # Create your views here.
@@ -59,12 +59,6 @@ def customize_desktop(request, id):
                 price=form.data['price'],
                 image=desktop.image,
             )
-            #
-            #     first_name=form.data['first_name'],
-            #     last_name=form.data['last_name'],
-            #     year_of_birth=form.data['year_of_birth'],
-            #     country=form.data['country'],
-            # )
             desktop_save.save()
             return HttpResponseRedirect("/")
 
@@ -104,7 +98,59 @@ def customize_desktop(request, id):
 
 @login_required(login_url="/members/login_user")
 def customize_laptop(request, id):
-    return render(request, "customize_desktops.html", context={})
+    laptop = Laptop.objects.filter(pk=id).first()
+    if laptop is None:
+        return redirect('browse_laptops')
+
+    starting_price = laptop.start_price
+
+    if request.method == "POST":
+        form = LaptopForm(request.POST)
+        if form.is_valid():
+            laptop_save = LaptopOrder(
+                start_price=starting_price,
+                exterior_color=form.data['exterior_color'],
+                memory=form.data['memory'],
+                operating_system_drive=form.data['operating_system_drive'],
+                additional_storage_drive=form.data['additional_storage_drive'],
+                operating_system=form.data['operating_system'],
+                price=form.data['price'],
+                image=laptop.image,
+            )
+            laptop_save.save()
+            return HttpResponseRedirect("/")
+
+    values_all = [
+        {
+            'label': 'Exterior Color', 'value': Component.objects.filter(
+            category=Category.objects.filter(name="Exterior Color").first(), platform="laptop"),
+            'class': 'exterior_color'
+        }, {
+            'label': 'Memory', 'value': Component.objects.filter(
+                category=Category.objects.filter(name="Memory").first(), platform="laptop"),
+            'class': 'memory'
+        }, {
+            'label': 'Operating System Drive', 'value': Component.objects.filter(
+                category=Category.objects.filter(name="Operating System Drive").first(), platform="laptop"),
+            'class': 'operating_system_drive'
+        }, {
+            'label': 'Additional Storage Drive', 'value': Component.objects.filter(
+                category=Category.objects.filter(name="Additional Storage Drive").first(), platform="laptop"),
+            'class': 'additional_storage_drive'
+        }, {
+            'label': 'Operating System', 'value': Component.objects.filter(
+                category=Category.objects.filter(name="Operating System").first(), platform="laptop"),
+            'class': 'operating_system'
+        },
+    ]
+
+    context = {
+        "laptop": laptop,
+        "form": LaptopForm,
+        "values_all": values_all,
+        "start_price": starting_price,
+    }
+    return render(request, "customize_laptops.html", context=context)
 
 
 def browse_laptops(request):
