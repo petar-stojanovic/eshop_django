@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -96,6 +97,7 @@ class Laptop(models.Model):
 
 
 class DesktopOrder(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     processor = models.CharField(max_length=50)
     motherboard = models.CharField(max_length=50)
     graphics_card = models.CharField(max_length=50)
@@ -112,6 +114,7 @@ class DesktopOrder(models.Model):
 
 
 class LaptopOrder(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     start_price = models.DecimalField(max_digits=8, decimal_places=2)
     exterior_color = models.CharField(max_length=50)
     memory = models.CharField(max_length=50)

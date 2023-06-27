@@ -49,6 +49,11 @@ admin.site.register(Laptop, LaptopAdmin)
 
 
 class DesktopOrderAdmin(admin.ModelAdmin):
+    exclude = ("user", )
+
+    def save_model(self, request, obj, form, change):
+        obj.user = request.user
+        super().save_model(request, obj, form, change)
 
     def has_change_permission(self, request, obj=None):
         return None
@@ -58,6 +63,11 @@ admin.site.register(DesktopOrder, DesktopOrderAdmin)
 
 
 class LaptopOrderAdmin(admin.ModelAdmin):
+    exclude = ("user",)
+
+    def save_model(self, request, obj, form, change):
+        obj.user = request.user
+        super().save_model(request, obj, form, change)
 
     def has_change_permission(self, request, obj=None):
         return None

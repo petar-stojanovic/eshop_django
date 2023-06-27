@@ -58,6 +58,7 @@ def customize_desktop(request, id):
                 operating_system=form.data['operating_system'],
                 price=form.data['price'],
                 image=desktop.image,
+                user=request.user,
             )
             desktop_save.save()
             return HttpResponseRedirect("/")
@@ -116,6 +117,7 @@ def customize_laptop(request, id):
                 operating_system=form.data['operating_system'],
                 price=form.data['price'],
                 image=laptop.image,
+                user=request.user,
             )
             laptop_save.save()
             return HttpResponseRedirect("/")
