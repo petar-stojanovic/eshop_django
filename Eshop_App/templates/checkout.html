@@ -57,7 +57,10 @@
                                         {{ field.errors }}
                                     </div>
                                 {% endif %}
-                                {% if field.label != "Address" %}
+
+                                {% if field.label == "Payment method" %}
+
+                                {% elif field.label != "Address" %}
                                     <div class="px-1 my-2 text-start col-6">
                                         <label class="my_class" for="{{ field.auto_id }}">{{ field.label }}</label>
                                         {{ field }}
@@ -77,7 +80,8 @@
 
                             <div id="payment-options">
                                 <div class="payment-option">
-                                    <input type="radio" name="payment_method" value="credit_card" checked form="checkout_form"> Credit Card
+                                    <input type="radio" name="payment_method" value="credit_card" checked
+                                           form="checkout_form"> Credit Card
 
                                     <div id="payment-form"></div>
                                 </div>
@@ -104,13 +108,44 @@
                                     <img src="{{ order.image.url }}" class="d-block m-auto" alt="{{ desktop.name }}">
                                 </div>
                                 <div class="card-body text-white text-center d-flex flex-column align-content-stretch">
-                                    <h4 class="card-title fw-bold">{{ desktop.name }}</h4>
-                                    <h5 class="fw-bold">{{ desktop.get_type_display }}</h5>
-                                    <p class="card-text" id="checkout_price">${{ desktop.price }}</p>
+
+                                    {# TODO: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!#}
+                                    <h4 class="card-title fw-bold">{{ order.name }}</h4>
+                                    {# TODO: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!#}
+
+
+                                    <div class="col-lg-12 col-md-6 m-auto">
+                                        <div class="d-flex justify-content-between">
+                                            <div>Subtotal</div>
+                                            <div>${{ order.price }}</div>
+                                        </div>
+                                        <hr class="opacity-75 my-1"/>
+
+                                        <div class="d-flex justify-content-between">
+                                            <div>Tax</div>
+                                            <div>0</div>
+                                        </div>
+                                        <hr class="opacity-75 my-1"/>
+
+                                        <div class="d-flex justify-content-between">
+                                            <div>Shipping</div>
+                                            <div>$10</div>
+                                        </div>
+                                        <hr class="opacity-75 my-1"/>
+
+                                        <div class="d-flex justify-content-between fw-bold">
+                                            <div>Total</div>
+                                            <div>${{ order.price|add:10 }}</div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <p class="card-text" id="checkout_price">${{ order.price }}</p>
 
                                     <input type="hidden" id="id_price" name="price" value="" form="checkout_form">
 
-                                    <input type="submit" class="customize btn rounded-pill fw-bold"
+                                    <input type="submit" class="customize btn rounded-pill fw-bold col-md-6 col-lg-12 m-auto mb-4"
                                            value="Place my order"
                                            form="checkout_form"/>
 
@@ -180,7 +215,7 @@
                             <input type="text" id="expiration" class="form-control" name="expiration" placeholder="MM/YY" required>
                          </div>
 
-                         <div class="col-md-3 col-12">
+                         <div class="col-md-3 col-12 mb-2">
                             <label for="cvv" class="py-2">CVV</label>
                             <input type="text" id="cvv" class="form-control" name="cvv" placeholder="XXX" required>
                          </div>

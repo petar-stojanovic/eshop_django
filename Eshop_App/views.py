@@ -176,6 +176,23 @@ def checkout_page(request, platform, id):
         if order is None:
             return redirect('home')
 
+        if request.method == "POST":
+            form = ShippingForm(request.POST)
+            if form.is_valid():
+                shipping_save = ShippingForm(
+                    start_price=starting_price,
+                    exterior_color=form.data['exterior_color'],
+                    memory=form.data['memory'],
+                    operating_system_drive=form.data['operating_system_drive'],
+                    additional_storage_drive=form.data['additional_storage_drive'],
+                    operating_system=form.data['operating_system'],
+                    price=form.data['price'],
+                    image=laptop.image,
+                    user=request.user,
+                )
+                shipping_save. save(commit=False)
+                return redirect("checkout", id=laptop_save.pk, platform="laptop")
+
     elif platform == "laptop":
         order = LaptopOrder.objects.filter(pk=id, user=request.user).first()
         if order is None:
@@ -183,8 +200,8 @@ def checkout_page(request, platform, id):
 
     initial_data = {
         'first_name': order.user.first_name,
-        'last_name':  order.user.last_name,
-        'email':  order.user.email,
+        'last_name': order.user.last_name,
+        'email': order.user.email,
     }
 
     form = ShippingForm(initial=initial_data)

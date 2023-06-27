@@ -119,6 +119,7 @@ class ShippingForm(forms.Form):
     city = forms.CharField(max_length=50)
     region = forms.CharField(max_length=50)
     postal_code = forms.IntegerField()
+    payment_method = forms.CharField(max_length=50)
 
     def __init__(self, *args, **kwargs):
         super(ShippingForm, self).__init__(*args, **kwargs)
@@ -134,3 +135,5 @@ class ShippingForm(forms.Form):
         self.fields['city'].widget.attrs['placeholder'] = "City"
         self.fields['region'].widget.attrs['placeholder'] = "Region"
         self.fields['postal_code'].widget.attrs['placeholder'] = "Postal code"
+        self.fields['payment_method'].widget.attrs['placeholder'] = "Payment Method"
+
