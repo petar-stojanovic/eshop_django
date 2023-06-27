@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from .models import Desktop, Laptop, Component, Category, DesktopOrder, LaptopOrder
 from django.contrib.auth.decorators import login_required
-from .forms import DesktopForm, LaptopForm
+from .forms import DesktopForm, LaptopForm, ShippingForm
 
 
 # Create your views here.
@@ -61,7 +61,7 @@ def customize_desktop(request, id):
                 user=request.user,
             )
             desktop_save.save()
-            return HttpResponseRedirect("/")
+            return redirect("checkout", platform="desktop", id=desktop_save.pk)
 
     values_all = [
         {'label': 'Processor', 'value': Component.objects.filter(
@@ -120,7 +120,7 @@ def customize_laptop(request, id):
                 user=request.user,
             )
             laptop_save.save()
-            return HttpResponseRedirect("/")
+            return redirect("checkout", id=laptop_save.pk, platform="laptop")
 
     values_all = [
         {
@@ -166,6 +166,34 @@ def browse_laptops(request):
         "laptop_list": laptop_list,
     }
     return render(request, "browse_laptops.html", context=context)
+
+
+@login_required(login_url="/members/login_user")
+def checkout_page(request, platform, id):
+    order = None
+    if platform == "desktop":
+        order = DesktopOrder.objects.filter(pk=id, user=request.user).first()
+        if order is None:
+            return redirect('home')
+
+    elif platform == "laptop":
+        order = LaptopOrder.objects.filter(pk=id, user=request.user).first()
+        if order is None:
+            return redirect('home')
+
+    initial_data = {
+        'first_name': order.user.first_name,
+        'last_name':  order.user.last_name,
+        'email':  order.user.email,
+    }
+
+    form = ShippingForm(initial=initial_data)
+    context = {
+        "platform": platform,
+        "order": order,
+        "form": form
+    }
+    return render(request, "checkout.html", context=context)
 
 # def create_component(request):
 #     if request.method == 'POST':

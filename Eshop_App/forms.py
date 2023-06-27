@@ -107,3 +107,30 @@ class LaptopForm(forms.Form):
         super(LaptopForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control text-dark'
+
+
+class ShippingForm(forms.Form):
+    first_name = forms.CharField(max_length=50)
+    last_name = forms.CharField(max_length=50)
+    email = forms.EmailField()
+    phone_number = forms.CharField(max_length=50)
+    address = forms.CharField(max_length=100)
+    country = forms.CharField(max_length=50)
+    city = forms.CharField(max_length=50)
+    region = forms.CharField(max_length=50)
+    postal_code = forms.IntegerField()
+
+    def __init__(self, *args, **kwargs):
+        super(ShippingForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control fw-bold border-2'
+
+        self.fields['first_name'].widget.attrs['placeholder'] = "First name"
+        self.fields['last_name'].widget.attrs['placeholder'] = "Last name"
+        self.fields['email'].widget.attrs['placeholder'] = "Email address"
+        self.fields['phone_number'].widget.attrs['placeholder'] = "Phone number"
+        self.fields['address'].widget.attrs['placeholder'] = "Street Address"
+        self.fields['country'].widget.attrs['placeholder'] = "Country"
+        self.fields['city'].widget.attrs['placeholder'] = "City"
+        self.fields['region'].widget.attrs['placeholder'] = "Region"
+        self.fields['postal_code'].widget.attrs['placeholder'] = "Postal code"

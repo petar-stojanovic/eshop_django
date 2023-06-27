@@ -8,4 +8,5 @@ urlpatterns = [
     path('desktop/<int:id>', views.customize_desktop, name="customize_desktop"),
     path('laptops/', views.browse_laptops, name="browse_laptops"),
     path('laptop/<int:id>', views.customize_laptop, name="customize_laptop"),
+    path('checkout/<str:platform>/<int:id>', views.checkout_page, name="checkout"),
 ]
