@@ -1,6 +1,6 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
-from .models import Desktop, Laptop, Component, Category, DesktopOrder, LaptopOrder
+from .models import Desktop, Laptop, Component, Category, DesktopOrder, LaptopOrder, ShippingOrder
 from django.contrib.auth.decorators import login_required
 from .forms import DesktopForm, LaptopForm, ShippingForm
 
@@ -179,24 +179,51 @@ def checkout_page(request, platform, id):
         if request.method == "POST":
             form = ShippingForm(request.POST)
             if form.is_valid():
-                shipping_save = ShippingForm(
-                    start_price=starting_price,
-                    exterior_color=form.data['exterior_color'],
-                    memory=form.data['memory'],
-                    operating_system_drive=form.data['operating_system_drive'],
-                    additional_storage_drive=form.data['additional_storage_drive'],
-                    operating_system=form.data['operating_system'],
-                    price=form.data['price'],
-                    image=laptop.image,
+                payment_method_check = "cash" if form.data['payment_method'] == "cash" else form.data['card_number'][
+                                                                                            -4:]
+                shipping_save = ShippingOrder(
                     user=request.user,
+                    first_name=form.data['first_name'],
+                    last_name=form.data['last_name'],
+                    email=form.data['email'],
+                    phone_number=form.data['phone_number'],
+                    address=form.data['address'],
+                    country=form.data['country'],
+                    city=form.data['city'],
+                    region=form.data['region'],
+                    postal_code=form.data['postal_code'],
+                    payment_method=payment_method_check,
+                    desktop=Desktop.objects.filter(pk=id).first(),
                 )
-                shipping_save. save(commit=False)
-                return redirect("checkout", id=laptop_save.pk, platform="laptop")
+                shipping_save.save()
+                return redirect("receive_order", id=shipping_save.pk, platform="desktop")
 
     elif platform == "laptop":
         order = LaptopOrder.objects.filter(pk=id, user=request.user).first()
         if order is None:
             return redirect('home')
+
+        if request.method == "POST":
+            form = ShippingForm(request.POST)
+            if form.is_valid():
+                payment_method_check = "cash" if form.data['payment_method'] == "cash" else form.data['card_number'][
+                                                                                            -4:]
+                shipping_save = ShippingOrder(
+                    user=request.user,
+                    first_name=form.data['first_name'],
+                    last_name=form.data['last_name'],
+                    email=form.data['email'],
+                    phone_number=form.data['phone_number'],
+                    address=form.data['address'],
+                    country=form.data['country'],
+                    city=form.data['city'],
+                    region=form.data['region'],
+                    postal_code=form.data['postal_code'],
+                    payment_method=payment_method_check,
+                    laptop=Laptop.objects.filter(pk=id).first(),
+                )
+                shipping_save.save()
+                return redirect("receive_order", platform="laptop", id=shipping_save.pk)
 
     initial_data = {
         'first_name': order.user.first_name,
@@ -211,6 +238,36 @@ def checkout_page(request, platform, id):
         "form": form
     }
     return render(request, "checkout.html", context=context)
+
+
+@login_required(login_url="/members/login_user")
+def receive_order(request, platform, id):
+    order = None
+    desktop = None
+    laptop = None
+    attribute_dict = {}
+
+    if platform == "desktop":
+        order = ShippingOrder.objects.filter(pk=id, user=request.user).first()
+        if order is None:
+            return redirect('home')
+        desktop = Desktop.objects.filter(pk=order.desktop.pk).first()
+
+
+
+    elif platform == "laptop":
+        order = ShippingOrder.objects.filter(pk=id, user=request.user).first()
+        if order is None:
+            return redirect('home')
+        laptop = Laptop.objects.filter(pk=order.laptop.pk).first()
+
+    context = {
+        "platform": platform,
+        "order": order,
+        "desktop": desktop,
+        "laptop": laptop,
+    }
+    return render(request, "order_received.html", context=context)
 
 # def create_component(request):
 #     if request.method == 'POST':

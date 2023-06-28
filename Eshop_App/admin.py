@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 from .forms import DesktopAdminForm, LaptopAdminForm
-from .models import Category, Component, Desktop, Laptop, DesktopOrder, LaptopOrder
+from .models import Category, Component, Desktop, Laptop, DesktopOrder, LaptopOrder, ShippingOrder
 
 # Register your models here.
 admin.site.register(Category)
@@ -49,7 +49,7 @@ admin.site.register(Laptop, LaptopAdmin)
 
 
 class DesktopOrderAdmin(admin.ModelAdmin):
-    exclude = ("user", )
+    exclude = ("user",)
 
     def save_model(self, request, obj, form, change):
         obj.user = request.user
@@ -74,3 +74,23 @@ class LaptopOrderAdmin(admin.ModelAdmin):
 
 
 admin.site.register(LaptopOrder, LaptopOrderAdmin)
+
+
+class ShippingOrderAdmin(admin.ModelAdmin):
+    exclude = ("user",)
+    list_display = (
+        "first_name", "last_name", "address", "city", "region", "postal_code", "phone_number", "email", "desktop",
+        "laptop",
+    )
+
+    def save_model(self, request, obj, form, change):
+        obj.user = request.user
+        super().save_model(request, obj, form, change)
+
+    def has_change_permission(self, request, obj=None):
+        if obj and obj.user == request.user:
+            return True
+        return False
+
+
+admin.site.register(ShippingOrder, ShippingOrderAdmin)

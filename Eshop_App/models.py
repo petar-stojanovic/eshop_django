@@ -126,3 +126,19 @@ class LaptopOrder(models.Model):
 
     def __str__(self):
         return f"Laptop Order #{self.pk}"
+
+
+class ShippingOrder(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    email = models.EmailField()
+    phone_number = models.CharField(max_length=50)
+    address = models.CharField(max_length=100)
+    country = models.CharField(max_length=50)
+    city = models.CharField(max_length=50)
+    region = models.CharField(max_length=50)
+    postal_code = models.IntegerField()
+    payment_method = models.CharField(max_length=50)
+    desktop = models.ForeignKey(Desktop, on_delete=models.CASCADE, null=True, blank=True)
+    laptop = models.ForeignKey(Laptop, on_delete=models.CASCADE, null=True, blank=True)
