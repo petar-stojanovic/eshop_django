@@ -61,7 +61,7 @@ def customize_desktop(request, id):
                 user=request.user,
             )
             desktop_save.save()
-            return redirect("checkout", platform="desktop", id=desktop_save.pk)
+            return redirect("checkout", platform="desktop", id=id, order_id=desktop_save.pk)
 
     values_all = [
         {'label': 'Processor', 'value': Component.objects.filter(
@@ -120,7 +120,7 @@ def customize_laptop(request, id):
                 user=request.user,
             )
             laptop_save.save()
-            return redirect("checkout", id=laptop_save.pk, platform="laptop")
+            return redirect("checkout", platform="laptop", id=id, order_id=laptop_save.pk)
 
     values_all = [
         {
@@ -169,10 +169,10 @@ def browse_laptops(request):
 
 
 @login_required(login_url="/members/login_user")
-def checkout_page(request, platform, id):
+def checkout_page(request, platform, id, order_id):
     order = None
     if platform == "desktop":
-        order = DesktopOrder.objects.filter(pk=id, user=request.user).first()
+        order = DesktopOrder.objects.filter(pk=order_id, user=request.user).first()
         if order is None:
             return redirect('home')
 
@@ -199,7 +199,7 @@ def checkout_page(request, platform, id):
                 return redirect("receive_order", id=shipping_save.pk, platform="desktop")
 
     elif platform == "laptop":
-        order = LaptopOrder.objects.filter(pk=id, user=request.user).first()
+        order = LaptopOrder.objects.filter(pk=order_id, user=request.user).first()
         if order is None:
             return redirect('home')
 
