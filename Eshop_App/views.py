@@ -1,8 +1,8 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from .models import Desktop, Laptop, Component, Category, DesktopOrder, LaptopOrder, ShippingOrder
-from django.contrib.auth.decorators import login_required
-from .forms import DesktopForm, LaptopForm, ShippingForm
+from django.contrib.auth.decorators import login_required, user_passes_test
+from .forms import DesktopForm, LaptopForm, ShippingForm, ComponentForm
 
 
 # Create your views here.
@@ -245,7 +245,6 @@ def receive_order(request, platform, id):
     order = None
     desktop = None
     laptop = None
-    attribute_dict = {}
 
     if platform == "desktop":
         order = ShippingOrder.objects.filter(pk=id, user=request.user).first()
@@ -269,14 +268,16 @@ def receive_order(request, platform, id):
     }
     return render(request, "order_received.html", context=context)
 
-# def create_component(request):
-#     if request.method == 'POST':
-#         form = ComponentForm(request.POST)
-#
-#         if form.is_valid():
-#             form.save()
-#             return redirect('home')
-#     else:
-#         form = ComponentForm()
-#
-#     return render(request, 'components/create.html', {'form': form})
+
+@user_passes_test(lambda u: u.is_superuser, login_url="/members/login_user")
+def add_component(request):
+    if request.method == 'POST':
+        component_form = ComponentForm(request.POST, files=request.FILES)
+
+        if component_form.is_valid():
+            component_form.save()
+            return redirect('home')
+    else:
+        form = ComponentForm()
+
+    return render(request, 'add_product.html', {"form": form})

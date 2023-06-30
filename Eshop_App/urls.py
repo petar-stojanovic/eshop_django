@@ -4,6 +4,7 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name="home"),
+    path('add/', views.add_component, name="add_component"),
     path('desktops/', views.browse_desktops, name="browse_desktops"),
     path('desktop/<int:id>', views.customize_desktop, name="customize_desktop"),
     path('laptops/', views.browse_laptops, name="browse_laptops"),

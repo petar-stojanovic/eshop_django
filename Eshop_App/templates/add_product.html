@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="container">
+        {% if form.errors %}
+            <div class="alert alert-warning alert-dismissible fade show mt-4" role="alert">
+                <strong>There was an error with your form...</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endif %}
+    </div>
+
+
+
+    <div class="container-md p-0 my-md-5">
+        <div class="login-form col-lg-8 col-md-10 col-sm-12 m-auto text-center rounded-4 py-5 shadow">
+            <h1 class="fw-bold my-4">Add Product</h1>
+
+            <form class="col-6 m-auto fw-bold" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="row">
+                    {% for field in form %}
+
+                        {% if field.errors %}
+                            <div class="text-danger col-12">
+                                {{ field.errors }}
+                            </div>
+                        {% endif %}
+                        {% if field.label == "Choose a platform" or field.label == "Choose a category" %}
+                            <div class="px-1 my-2 text-start col-lg-6 col-sm-12">
+                                <label class="my_class" for="{{ field.auto_id }}">{{ field.label }}</label>
+                                {{ field }}
+                            </div>
+                        {% else %}
+
+                            <div class="px-0 my-2 text-start">
+                                <label class="my_class" for="{{ field.auto_id }}">{{ field.label }}</label>
+                                {{ field }}
+                            </div>
+                        {% endif %}
+
+
+                    {% endfor %}
+                </div>
+
+                <div class="my-4">
+                    <button type="submit" id="login-form" class=" w-100 btn text-dark fw-bold rounded-pill py-2">
+                        Add Product
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+{% endblock %}

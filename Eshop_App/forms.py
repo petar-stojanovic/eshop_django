@@ -5,18 +5,27 @@ from .models import Component, Category, Desktop, Laptop, DesktopOrder, LaptopOr
 class ComponentForm(forms.ModelForm):
     class Meta:
         model = Component
-        fields = ['name', 'price', 'platform', 'category']
+        fields = ('name', "description", 'price', 'platform', 'category', 'image',)
+        labels = {
+            'name': 'Product name',
+            'description': 'Product description',
+            'price': 'Product price',
+            'platform': 'Choose a platform',
+            'category': 'Choose a category',
+            'image': 'Upload image',
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        for field in self.visible_fields():
+            field.field.widget.attrs["class"] = "form-control text-white bg-dark fw-bold border-2"
 
-        if self.instance.platform == 'desktop':
-            self.fields['category'].queryset = Category.objects.filter(
-                name__in=['processor', 'motherboard', 'graphics card', 'memory', 'power supply', 'storage drive',
-                          'extra case fans', 'operating system'])
-        else:
-            self.fields['category'].queryset = Category.objects.filter(
-                name__in=['exterior color', 'memory', 'operating system drive', 'additional storage drive'])
+        self.fields['name'].widget.attrs['placeholder'] = "Product name"
+        self.fields['description'].widget.attrs['placeholder'] = "Product description"
+        self.fields['price'].widget.attrs['placeholder'] = "Product price"
+        self.fields['platform'].widget.attrs['placeholder'] = "Choose a platform"
+        self.fields['category'].widget.attrs['placeholder'] = "Choose a category"
+        self.fields['image'].widget.attrs['placeholder'] = "Upload image"
 
 
 class DesktopAdminForm(forms.ModelForm):
@@ -88,7 +97,7 @@ class DesktopForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(DesktopForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
-            visible.field.widget.attrs['class'] = 'form-control text-dark'
+            visible.field.widget.attrs['class'] = 'form-control text-white bg-dark'
 
 
 class LaptopForm(forms.Form):
@@ -106,7 +115,7 @@ class LaptopForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(LaptopForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
-            visible.field.widget.attrs['class'] = 'form-control text-dark'
+            visible.field.widget.attrs['class'] = 'form-control text-white bg-dark'
 
 
 class ShippingForm(forms.Form):
@@ -124,7 +133,7 @@ class ShippingForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(ShippingForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
-            visible.field.widget.attrs['class'] = 'form-control fw-bold border-2'
+            visible.field.widget.attrs['class'] = 'form-control fw-bold border-2 text-white bg-dark'
 
         self.fields['first_name'].widget.attrs['placeholder'] = "First name"
         self.fields['last_name'].widget.attrs['placeholder'] = "Last name"
@@ -136,4 +145,3 @@ class ShippingForm(forms.Form):
         self.fields['region'].widget.attrs['placeholder'] = "Region"
         self.fields['postal_code'].widget.attrs['placeholder'] = "Postal code"
         self.fields['payment_method'].widget.attrs['placeholder'] = "Payment Method"
-
